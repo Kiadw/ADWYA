@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1400" style="background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#cbd5e1" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- TÊTE (Header) -->
+  <rect x="0" y="0" width="1600" height="150" fill="#1B75BC" />
+  <text x="800" y="70" font-weight="900" font-size="42" fill="white" text-anchor="middle">ADWYA PharmaTech Hub : Le Laboratoire Numérique</text>
+  <text x="800" y="115" font-weight="400" font-size="22" fill="#EBF4FA" text-anchor="middle">De la simple base de données à la création prédictive de médicaments (IA &amp; 3D)</text>
+
+  <!-- POURQUOI (Problème) & POUR QUI (Cible) -->
+  <rect x="80" y="190" width="700" height="180" rx="12" fill="#ffffff" filter="url(#shadow)" stroke="#ef4444" stroke-width="3" />
+  <text x="110" y="235" font-weight="bold" font-size="24" fill="#1e293b">❓ POURQUOI CE PROJET ? (Le Problème actuel)</text>
+  <foreignObject x="110" y="255" width="640" height="100">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 18px; color: #475569; line-height: 1.5;">
+      Dans l'industrie classique, créer un médicament coûte des <strong>années de tests</strong> et des <strong>millions d'euros</strong> gâchés. Tout est calculé manuellement, aucune donnée chimique n'est numérisée en 3D, et une simple rupture de stock d'ingrédient peut arrêter la chaîne de production d'un pays entier.
+    </div>
+  </foreignObject>
+
+  <rect x="820" y="190" width="700" height="180" rx="12" fill="#ffffff" filter="url(#shadow)" stroke="#f59e0b" stroke-width="3" />
+  <text x="850" y="235" font-weight="bold" font-size="24" fill="#1e293b">🎯 POUR QUI EST-CE FAIT ? (La Cible)</text>
+  <foreignObject x="850" y="255" width="640" height="100">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 18px; color: #475569; line-height: 1.5;">
+      <strong>1. Les Chercheurs et Bio-ingénieurs :</strong> Pour concevoir virtuellement la recette des médicaments sans les dangers physiques.<br/>
+      <strong>2. Directeurs Supply Chain :</strong> Pour être alertés des possibles pénuries de matières premières dans le monde avant qu'elles n'arrivent.<br/>
+      <strong>3. Directeurs Qualité :</strong> Pour s'assurer des normes FDA/EMA légales.
+    </div>
+  </foreignObject>
+
+  <!-- LIGNES DE CONNEXION PRINCIPALES -->
+  <path d="M 800 370 L 800 480" stroke="#94a3b8" stroke-width="6" />
+  <path d="M 400 480 L 1200 480" stroke="#94a3b8" stroke-width="6" />
+  
+  <path d="M 230 480 L 230 520" stroke="#94a3b8" stroke-width="4" />
+  <path d="M 610 480 L 610 520" stroke="#94a3b8" stroke-width="4" />
+  <path d="M 990 480 L 990 520" stroke="#94a3b8" stroke-width="4" />
+  <path d="M 1370 480 L 1370 520" stroke="#94a3b8" stroke-width="4" />
+
+  <!-- NŒUD CENTRAL (LA SOLUTION) -->
+  <rect x="500" y="420" width="600" height="80" rx="20" fill="#60B246" filter="url(#shadow)" />
+  <text x="800" y="470" font-weight="bold" font-size="28" fill="white" text-anchor="middle">💡 LA SOLUTION : ADWYA PHARMATECH (Base d'IA Avancée)</text>
+
+  <!-- PILIER 1 -->
+  <rect x="50" y="580" width="360" height="420" rx="16" fill="#ffffff" filter="url(#shadow)" stroke="#1B75BC" stroke-width="4" />
+  <rect x="50" y="580" width="360" height="70" rx="16" fill="#1B75BC" />
+  <text x="230" y="625" font-weight="bold" font-size="22" fill="white" text-anchor="middle">1. Le Laboratoire Numérique</text>
+  <foreignObject x="70" y="670" width="320" height="320">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 16px; color: #334155; line-height: 1.5;">
+      <p><strong>À quoi ça sert ?</strong><br/>Permettre au chimiste de "fabriquer" visuellement son médicament sur écran plutôt que dans un tube à essai réel.</p>
+      <ul style="padding-left: 20px; line-height: 1.6;">
+        <li><strong>Big Data :</strong> La plateforme se connecte aux bases mondiales pour télécharger l'ADN exact de la molécule.</li>
+        <li><strong>Modélisation 3D :</strong> Dès qu'une molécule est trouvée, l'outil génère sa vraie forme en 3D permettant au chercheur de l'inspecter virtuellement.</li>
+      </ul>
+    </div>
+  </foreignObject>
+
+  <!-- PILIER 2 -->
+  <rect x="430" y="580" width="360" height="420" rx="16" fill="#ffffff" filter="url(#shadow)" stroke="#60B246" stroke-width="4" />
+  <rect x="430" y="580" width="360" height="70" rx="16" fill="#60B246" />
+  <text x="610" y="625" font-weight="bold" font-size="22" fill="white" text-anchor="middle">2. L'Intelligence Artificielle</text>
+  <foreignObject x="450" y="670" width="320" height="320">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 16px; color: #334155; line-height: 1.5;">
+      <p><strong>À quoi ça sert ?</strong><br/>Le logiciel devient un "cerveau" qui prédit les erreurs et les dangers avant même qu'ils ne se produisent.</p>
+      <ul style="padding-left: 20px; line-height: 1.6;">
+        <li><strong>Prédiction des Incompatibilités :</strong> Si le pharmacien mélange deux composants volatils, l'IA bloque la formulation immédiatement.</li>
+        <li><strong>Scoring Médical :</strong> Le système calcule mathématiquement la "toxicité" ou la "solubilité", économisant des mois d'études cliniques.</li>
+      </ul>
+    </div>
+  </foreignObject>
+
+  <!-- PILIER 3 -->
+  <rect x="810" y="580" width="360" height="420" rx="16" fill="#ffffff" filter="url(#shadow)" stroke="#f59e0b" stroke-width="4" />
+  <rect x="810" y="580" width="360" height="70" rx="16" fill="#f59e0b" />
+  <text x="990" y="625" font-weight="bold" font-size="22" fill="white" text-anchor="middle">3. Le Bouclier Supply Chain</text>
+  <foreignObject x="830" y="670" width="320" height="320">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 16px; color: #334155; line-height: 1.5;">
+      <p><strong>À quoi ça sert ?</strong><br/>Éviter la pire situation pour un pays : la rupture de stock des médicaments essentiels.</p>
+      <ul style="padding-left: 20px; line-height: 1.6;">
+        <li><strong>Anticipation des Crises :</strong> L'outil cartographie tous les fournisseurs dans le monde entier. </li>
+        <li><strong>Système de Secours :</strong> Si une usine ferme, le logiciel suggère immédiatement trois autres fournisseurs mondiaux certifiés "Qualité Médicale".</li>
+      </ul>
+    </div>
+  </foreignObject>
+
+  <!-- PILIER 4 -->
+  <rect x="1190" y="580" width="360" height="420" rx="16" fill="#ffffff" filter="url(#shadow)" stroke="#ef4444" stroke-width="4" />
+  <rect x="1190" y="580" width="360" height="70" rx="16" fill="#ef4444" />
+  <text x="1370" y="625" font-weight="bold" font-size="22" fill="white" text-anchor="middle">4. Sécurité &amp; Légalité</text>
+  <foreignObject x="1210" y="670" width="320" height="320">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 16px; color: #334155; line-height: 1.5;">
+      <p><strong>À quoi ça sert ?</strong><br/>Respecter les lois médicales internationales très strictes (Europe, USA).</p>
+      <ul style="padding-left: 20px; line-height: 1.6;">
+        <li><strong>Mémoire Inaltérable :</strong> Le logiciel enregistre chaque clic comme dans une "boîte noire" d'avion (Audit Trail). Aucun retour en arrière n'est possible, falsifier un dossier est impossible.</li>
+        <li><strong>Triple Signature :</strong> Autorisation cryptée nécessaire par le chef labo.</li>
+      </ul>
+    </div>
+  </foreignObject>
+
+  <!-- CONCLUSION / RÉSULTAT -->
+  <path d="M 800 1000 L 800 1100" stroke="#94a3b8" stroke-width="6" stroke-dasharray="8,8" />
+  <polygon points="785,1100 815,1100 800,1130" fill="#94a3b8" />
+
+  <rect x="300" y="1130" width="1000" height="150" rx="20" fill="#1B75BC" stroke="#ffffff" stroke-width="4" filter="url(#shadow)" />
+  <text x="800" y="1180" font-weight="bold" font-size="28" fill="white" text-anchor="middle">⭐ RÉSULTAT FINAL POUR L'ENTREPRISE ⭐</text>
+  <foreignObject x="320" y="1200" width="960" height="80">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 20px; color: #EBF4FA; line-height: 1.4; text-align: center;">
+      Un laboratoire pionnier capable de formuler et sécuriser des médicaments <strong>immensément plus vite</strong>, d'éviter les réactions chimiques instables <strong>sans dépenser en essais réels</strong>, tout en étant immunisé contre les pénuries mondiales.
+    </div>
+  </foreignObject>
+
+</svg>

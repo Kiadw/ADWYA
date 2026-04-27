@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <rect width="100%" height="100%" fill="#f8fafc" />
+  
+  <!-- Connections -->
+  <path d="M 250 400 C 350 400, 350 150, 450 150" fill="none" stroke="#60B246" stroke-width="4" />
+  <path d="M 250 400 C 350 400, 350 350, 450 350" fill="none" stroke="#60B246" stroke-width="4" />
+  <path d="M 250 400 C 350 400, 350 550, 450 550" fill="none" stroke="#60B246" stroke-width="4" />
+  <path d="M 250 400 C 350 400, 350 700, 450 700" fill="none" stroke="#60B246" stroke-width="4" />
+
+  <!-- Children connections -->
+  <path d="M 700 150 C 750 150, 750 100, 800 100" fill="none" stroke="#e2e8f0" stroke-width="3" />
+  <path d="M 700 150 C 750 150, 750 200, 800 200" fill="none" stroke="#e2e8f0" stroke-width="3" />
+
+  <path d="M 700 350 C 750 350, 750 300, 800 300" fill="none" stroke="#e2e8f0" stroke-width="3" />
+  <path d="M 700 350 C 750 350, 750 400, 800 400" fill="none" stroke="#e2e8f0" stroke-width="3" />
+
+  <path d="M 700 550 C 750 550, 750 500, 800 500" fill="none" stroke="#e2e8f0" stroke-width="3" />
+  <path d="M 700 550 C 750 550, 750 600, 800 600" fill="none" stroke="#e2e8f0" stroke-width="3" />
+
+  <path d="M 700 700 C 750 700, 750 660, 800 660" fill="none" stroke="#e2e8f0" stroke-width="3" />
+  <path d="M 700 700 C 750 700, 750 740, 800 740" fill="none" stroke="#e2e8f0" stroke-width="3" />
+
+  <!-- Root -->
+  <rect x="50" y="325" width="200" height="150" rx="15" fill="#1B75BC" />
+  <text x="150" y="380" font-family="sans-serif" font-weight="bold" font-size="24" fill="white" text-anchor="middle">ADWYA</text>
+  <text x="150" y="410" font-family="sans-serif" font-weight="bold" font-size="18" fill="white" text-anchor="middle">PharmaTech V3</text>
+
+  <!-- Level 1 Nodes -->
+  <rect x="450" y="115" width="250" height="70" rx="10" fill="#ffffff" stroke="#60B246" stroke-width="3" />
+  <text x="575" y="155" font-family="sans-serif" font-weight="bold" font-size="18" fill="#1e293b" text-anchor="middle">Laboratoire In Silico</text>
+
+  <rect x="450" y="315" width="250" height="70" rx="10" fill="#ffffff" stroke="#60B246" stroke-width="3" />
+  <text x="575" y="355" font-family="sans-serif" font-weight="bold" font-size="18" fill="#1e293b" text-anchor="middle">Intelligence ADMET</text>
+
+  <rect x="450" y="515" width="250" height="70" rx="10" fill="#ffffff" stroke="#60B246" stroke-width="3" />
+  <text x="575" y="555" font-family="sans-serif" font-weight="bold" font-size="18" fill="#1e293b" text-anchor="middle">Supply Chain</text>
+
+  <rect x="450" y="665" width="250" height="70" rx="10" fill="#ffffff" stroke="#60B246" stroke-width="3" />
+  <text x="575" y="705" font-family="sans-serif" font-weight="bold" font-size="18" fill="#1e293b" text-anchor="middle">Conformité (FDA/EMA)</text>
+
+  <!-- Level 2 Nodes (Leafs) -->
+  <!-- Lab -->
+  <rect x="800" y="75" width="300" height="50" rx="8" fill="#e2e8f0" />
+  <text x="950" y="105" font-family="sans-serif" font-size="16" fill="#334155" text-anchor="middle">Intégration API PubChem</text>
+  
+  <rect x="800" y="175" width="300" height="50" rx="8" fill="#e2e8f0" />
+  <text x="950" y="205" font-family="sans-serif" font-size="16" fill="#334155" text-anchor="middle">Visualisation Moléculaire 3D</text>
+
+  <!-- ADMET -->
+  <rect x="800" y="275" width="300" height="50" rx="8" fill="#e2e8f0" />
+  <text x="950" y="305" font-family="sans-serif" font-size="16" fill="#334155" text-anchor="middle">Prédiction Toxicité/Solubilité</text>
+
+  <rect x="800" y="375" width="300" height="50" rx="8" fill="#e2e8f0" />
+  <text x="950" y="405" font-family="sans-serif" font-size="16" fill="#334155" text-anchor="middle">Moteur d'Incompatibilités Galéniques</text>
+
+  <!-- Supply Chain -->
+  <rect x="800" y="475" width="300" height="50" rx="8" fill="#e2e8f0" />
+  <text x="950" y="505" font-family="sans-serif" font-size="16" fill="#334155" text-anchor="middle">Alertes Pénuries (Cartographie)</text>
+
+  <rect x="800" y="575" width="300" height="50" rx="8" fill="#e2e8f0" />
+  <text x="950" y="605" font-family="sans-serif" font-size="16" fill="#334155" text-anchor="middle">Sourcing Alternatif (Index GMP)</text>
+
+  <!-- Reg -->
+  <rect x="800" y="635" width="300" height="50" rx="8" fill="#e2e8f0" />
+  <text x="950" y="665" font-family="sans-serif" font-size="16" fill="#334155" text-anchor="middle">Audit Trail (21 CFR Part 11)</text>
+
+  <rect x="800" y="715" width="300" height="50" rx="8" fill="#e2e8f0" />
+  <text x="950" y="745" font-family="sans-serif" font-size="16" fill="#334155" text-anchor="middle">Signature Électronique &amp; Versioning</text>
+
+</svg>

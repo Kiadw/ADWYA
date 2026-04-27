@@ -67,13 +67,36 @@ Le monde de la Pharma est régi par la norme américaine *21 CFR Part 11* ou l'E
 
 ---
 
-## 6. Conclusion et Cap à tenir
+## 6. Conclusion
 
 Ce projet est une **réussite absolue d'un point de vue développement web et ingénierie logicielle**. C'est une plateforme rapide, extrêmement belle et bien structurée.
 
 Cependant, de manière très objective, **ce n'est pas (encore) un outil révolutionnaire pour la biologie ou la chimie**. Pour le moment, c'est un excellent outil de gestion administrative pour la pharma (ce qui est déjà un marché à plusieurs millions d'euros).
 
-Pour passer d'un "outil de gestion" à un "outil de rupture technologique (DeepTech)", il faudra exécuter la Phase 3 :
-1. Intégrer la prédiction par **vrai** Machine Learning (prédiction ADMET).
-2. Connecter le backend aux bases de chimie mondiales en API.
-3. Implémenter un moteur de détection d'incompatibilités dans les formulations.
+---
+
+## 7. Plan d'Action : Transformer la "Cible Nominale" en "Cible Réelle"
+
+Pour que le bio-ingénieur et le chercheur en R&D ne soient plus de simples cibles "théoriques" mais les **véritables utilisateurs dépendants de la plateforme**, il faut passer d'un outil de stockage passif à un véritable **Laboratoire "in silico"**. 
+
+Voici comment pivoter techniquement et fonctionnellement (Phase 3) :
+
+**1. Data Integration (Automatisation de la vérité scientifique)**
+Un chercheur ne doit jamais entrer manuellement une caractéristique chimique.
+> **Action** : Dès la saisie du nom ou du CAS (ex: Amoxicilline), le système appelle les APIs de *PubChem* ou *DrugBank* pour importer la structure moléculaire (SMILES), la solubilité exacte, le pKa, et le LogP de manière automatisée.
+
+**2. Le Laboratoire In Silico (Visualisation et Modélisation 3D)**
+Travailler sur des formulations nécessite une compréhension spatiale de la molécule.
+> **Action** : Implémenter la librairie *3Dmol.js* utilisant la chaîne SMILES pour générer instantanément des représentations 3D manipulables des composés directement sur la fiche ingrédient.
+
+**3. Le Moteur de Détection d'Incompatibilités Galéniques**
+Créer une recette instable fait perdre des jours d’études en paillasse.
+> **Action** : Développer un moteur d'alerte lors de la création d'une formulation (*"Attention : Vous mixez un principe actif acide avec un excipient basique, ce qui risque de neutraliser l'efficacité du lot."*). L'outil passe d'informatique à pro-actif.
+
+**4. Prédire au lieu de Décrire (IA ADMET & Machine Learning)**
+L'ère du Rule-Based est dépassée en chimie computationnelle. 
+> **Action** : Connecter un backend prédictif (via Python/RDKit ou modèles GNN existants) capable de **prédire** la solubilité ou la toxicité systémique d'un composé nouvellement importé, devançant ainsi les tests longs in-vitro.
+
+**5. Imposer la conformité "Pharma-Grade" (FDA / EMA)**
+Un outil en R&D Pharma n'a de valeur que s'il est validable légalement.
+> **Action** : Renforcer l'Audit Trail dans Supabase pour être conforme à la norme **21 CFR Part 11**. Les formulations doivent intégrer un versioning strict (bloquant les modifications non tracées) et exiger une **signature électronique certifiée** de l'ingénieur lors du passage en statut 'Production'.
