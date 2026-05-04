@@ -62,3 +62,102 @@ La plateforme se lance avec des données de démonstration peuplant des cas d'ut
 ## Vision à long terme
 
 Cet outil est le premier pas de la numérisation complète de la chaîne de valeur du développement médicamenteux au sein du groupe ADWYA. Son but n'est plus seulement de *"stocker"* de l'information, mais de *"prédire"* et de *"sécuriser"* l'avenir du traitement patient dans un écosystème sous contraintes.
+
+---
+
+## Architecture Détaillée : Le "Cerveau" IA et le Backend
+
+L'innovation majeure de la plateforme réside dans son architecture backend découplée, permettant à l'interface Next.js (légère et rapide) de piloter un moteur d'Intelligence Artificielle lourd et asynchrone (généralement hébergé sur AWS en Python).
+
+### 1. Vue d'Ensemble de l'Architecture (Système)
+
+Le schéma ci-dessous détaille le flux des données depuis le navigateur du bio-ingénieur jusqu'aux modèles de Machine Learning.
+
+```mermaid
+graph TD
+    subgraph Frontend [Frontend - Next.js]
+        A[Interface Utilisateur ADWYA]
+        B[AuthGuard & Supabase Auth]
+        C[Rendu Canvas 2D/3D <br> smiles-drawer / Ketcher]
+        D[Dashboard Dynamique]
+    end
+
+    subgraph BackendaaS [Supabase - Données & Sécurité]
+        E[(PostgreSQL DB)]
+        F[Gestion des Sessions JWT]
+        G[Edge Functions & Triggers]
+    end
+
+    subgraph AIBackend [Backend IA & Web Scraping - Python / AWS]
+        H[API Gateway / FastAPI]
+        I[Message Broker <br> Celery / Redis]
+        J[Modèles GNN <br> Propriétés Moléculaires]
+        K[NLP / LLMs <br> Classification Médicale]
+        L[Workers Selenium <br> Scraping Fournisseurs]
+    end
+
+    %% Connexions Frontend -> Backend
+    A <-->|Requêtes REST / Realtime| E
+    B <-->|Authentification Sécurisée| F
+    D <-->|CRUD User Metadata| F
+    
+    %% Connexions Supabase -> IA
+    E -->|Webhooks via Triggers| H
+    H -->|Distribution de la charge asynchrone| I
+    
+    %% Pipeline IA
+    I -->|Analyse Structurale SMILES| J
+    I -->|Analyse Sémantique (DCI)| K
+    I -->|Recherche de disponibilité| L
+    
+    %% Retour vers DB
+    J -->|Mise à jour des Scores IA| E
+    K -->|Catégorisation et Tags| E
+    L -->|Risque Supply Chain & Mapping| E
+```
+
+### 2. Le Pipeline d'Intelligence Artificielle (Deep Dive)
+
+Le traitement d'une nouvelle molécule ou d'un nouveau médicament nécessite plusieurs étapes analytiques qui dépassent les simples requêtes SQL. L'IA agit à deux niveaux : **L'analyse du graphe moléculaire** et **l'analyse sémantique clinique**.
+
+#### A. Les Modèles GNN (Graph Neural Networks)
+La structure SMILES est convertie en un graphe mathématique où les atomes sont des *nœuds* et les liaisons sont des *arêtes*. L'IA (via des frameworks comme PyTorch Geometric ou ChemBERTa) "lit" ce graphe pour prédire :
+- **La Solubilité (LogP)** : Crucial pour déterminer comment un médicament sera formulé (pilule vs injection).
+- **La Toxicité et Incompatibilités** : L'IA signale si l'association de certains principes actifs avec des excipients précis risque de créer un composé instable.
+
+#### B. Les Modèles NLP (Natural Language Processing)
+Les textes médicaux (DCI, indications thérapeutiques) sont passés dans des modèles de langage spécialisés dans la biologie (ex: BioBERT). Le NLP extrait les entités nommées (NER) pour classer automatiquement la molécule dans sa classe thérapeutique et lister les contre-indications majeures sans intervention humaine.
+
+#### Flux de Séquence de l'Analyse IA
+
+```mermaid
+sequenceDiagram
+    participant UI as Bio-Ingénieur (UI)
+    participant DB as Supabase
+    participant API as FastAPI (Backend)
+    participant GNN as Modèle GNN (Chimie)
+    participant NLP as Modèle NLP (Texte)
+    
+    UI->>DB: Ajout / Modification (SMILES + DCI)
+    DB->>API: Webhook : Nouvelle molécule détectée
+    
+    par Analyse Parallèle
+        API->>GNN: Envoi de la chaîne SMILES
+        Note over GNN: Conversion en Graphe<br/>Calcul des descripteurs ADMET
+        GNN-->>API: Prédiction (Toxicité, Interactions)
+        
+        API->>NLP: Envoi de la documentation clinique
+        Note over NLP: Extraction des Entités (NER)<br/>Analyse Sémantique
+        NLP-->>API: Classification & Contre-indications
+    end
+    
+    API->>API: Agrégation et Calcul du Score de Confiance Global
+    API->>DB: Mise à jour (Score IA, Flags d'Alerte)
+    DB-->>UI: Rafraîchissement Temps Réel (WebSockets)
+```
+
+### 3. Les Workers de Web Scraping (Selenium/AWS)
+
+Pour garantir la résilience de la Supply Chain (fonctionnalité clé face aux pénuries mondiales), le backend n'attend pas que les données fournisseurs tombent du ciel.
+- **Scraping Actif** : Des instances autonomes hébergées sur AWS utilisent des bibliothèques comme `Selenium` et `tqdm` pour interroger les bases de données mondiales de fournisseurs de principes actifs (API).
+- **Mise à jour Continue** : Le système cartographie en temps réel l'état des stocks mondiaux, et le niveau de saturation des usines (géolocalisées). Si un fournisseur en Inde présente un risque de rupture, le NLP l'identifie dans l'actualité logistique, et Supabase alerte immédiatement le dashboard ADWYA.
