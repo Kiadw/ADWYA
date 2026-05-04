@@ -231,7 +231,6 @@ export default function DashboardPage() {
             })}
           </div>
         </div>
-        </div>
       </div>
 
       {/* Supply Chain Live Alerts */}

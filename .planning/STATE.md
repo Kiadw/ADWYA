@@ -1,10 +1,10 @@
 ---
-status: planning
+status: completed
 milestone: v1.0
 name: Molecule Drawing & Testing
 progress:
   total: 5
-  completed: 0
+  completed: 5
 ---
 
 # Project State
@@ -18,10 +18,10 @@ See: .planning/PROJECT.md
 
 ## Current Position
 
-Phase: 1
-Plan: —
-Status: Planning
-Last activity: 2026-05-04 — Milestone v1.0 initialized
+Phase: Complete
+Plan: Milestone v1.0 achieved
+Status: Completed
+Last activity: 2026-05-04 — All 5 phases executed autonomously
 
 ## Accumulated Context
 
