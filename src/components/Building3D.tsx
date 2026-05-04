@@ -79,12 +79,15 @@ function AdwyaBuilding() {
         <meshStandardMaterial color={COLOR_GLASS} opacity={0.5} transparent roughness={0.1} metalness={0.5} />
       </mesh>
 
-      {/* Logo Sign on Roof */}
-      <mesh position={[-0.8, 1.8, 0]}>
-        <boxGeometry args={[1.2, 0.3, 0.1]} />
-        <meshStandardMaterial color={COLOR_MAIN} />
-      </mesh>
-      <Text position={[-0.8, 1.8, 0.06]} fontSize={0.15} color={COLOR_TEXT} anchorX="center" anchorY="middle">
+      {/* Logo Sign on Front Facade */}
+      <Text 
+        position={[0, 1.5, 0.58]} 
+        fontSize={0.25} 
+        color={COLOR_TEXT} 
+        anchorX="center" 
+        anchorY="middle"
+        font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
+      >
         ADWYA أدوية
       </Text>
 
@@ -106,8 +109,7 @@ function AdwyaBuilding() {
 export default function Building3D() {
   return (
     <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}>
-      <Canvas camera={{ position: [6, 3, 8], fov: 40 }}>
-        <color attach="background" args={['#ffffff']} />
+      <Canvas camera={{ position: [6, 3, 8], fov: 40 }} gl={{ alpha: true }}>
         <ambientLight intensity={0.6} />
         <directionalLight position={[10, 10, 5]} intensity={1} castShadow color="#ffffff" />
         <pointLight position={[-10, -10, -10]} intensity={0.3} color="#f8fafc" />
