@@ -44,7 +44,7 @@ const NAV_SECTIONS = [
     {
         title: 'Documentation',
         links: [
-            { href: '/guide', label: 'Guide Utilisateur', icon: Compass, id: 'nav-guide' },
+            { href: '/wiki', label: 'Wiki ADWYA', icon: Compass, id: 'nav-wiki' },
         ],
     },
 ];
