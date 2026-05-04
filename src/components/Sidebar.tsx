@@ -28,8 +28,9 @@ const NAV_SECTIONS = [
         ],
     },
     {
-        title: 'Intelligence Artificielle',
+        title: 'Laboratoire In Silico (R&D)',
         links: [
+            { href: '/molecule-builder', label: 'Editeur de Molecules', icon: FlaskConical, id: 'nav-builder' },
             { href: '/classification', label: 'Classification IA', icon: BrainCircuit, id: 'nav-classification' },
         ],
     },
@@ -37,6 +38,12 @@ const NAV_SECTIONS = [
         title: 'Analyse',
         links: [
             { href: '/reports', label: 'Rapports', icon: FileBarChart, id: 'nav-reports' },
+        ],
+    },
+    {
+        title: 'Documentation',
+        links: [
+            { href: '/guide', label: 'Guide Utilisateur', icon: Compass, id: 'nav-guide' },
         ],
     },
 ];
