@@ -1,0 +1,10 @@
+{
+  "workflow": {
+    "mode": "yolo",
+    "granularity": "coarse",
+    "execution": "parallel",
+    "git_tracking": true,
+    "research_enabled": false,
+    "text_mode": true
+  }
+}
