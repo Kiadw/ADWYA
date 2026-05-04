@@ -25,6 +25,7 @@ const NAV_SECTIONS = [
             { href: '/', label: 'Dashboard', icon: LayoutDashboard, id: 'nav-dashboard' },
             { href: '/ingredients', label: 'Ingredients', icon: FlaskConical, badge: '45', id: 'nav-ingredients' },
             { href: '/formulations', label: 'Formulations', icon: Pill, id: 'nav-formulations' },
+            { href: '/medicaments', label: 'Medicaments', icon: Pill, id: 'nav-medicaments' },
         ],
     },
     {

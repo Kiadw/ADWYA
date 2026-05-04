@@ -19,6 +19,7 @@ import {
 } from 'chart.js';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import { INGREDIENTS, FORMULATIONS, ACTIVITIES } from '@/lib/data';
+import { getMedicationStats } from '@/lib/medications';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
 
@@ -26,6 +27,7 @@ ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarEle
 const totalIngredients = INGREDIENTS.length;
 const activeIngredients = INGREDIENTS.filter(i => i.category === 'Principe actif').length;
 const totalFormulations = FORMULATIONS.length;
+const medStats = getMedicationStats();
 const classifications = 128; // simulated
 
 // Category distribution for doughnut
@@ -109,9 +111,9 @@ const barOptions = {
 };
 
 const KPI_DATA = [
-  { label: 'Total Ingrédients', value: totalIngredients, trend: '+3', icon: FlaskConical },
+  { label: 'Medicaments ADWYA', value: medStats.total, trend: `${medStats.categories} cat.`, icon: Pill },
   { label: 'Principes Actifs', value: activeIngredients, trend: '+2', icon: Beaker },
-  { label: 'Formulations', value: totalFormulations, trend: '+1', icon: Pill },
+  { label: 'Formulations', value: totalFormulations, trend: '+1', icon: FlaskConical },
   { label: 'Classifications IA', value: classifications, trend: '+12', icon: BrainCircuit },
 ];
 

@@ -132,27 +132,27 @@ export default function MoleculeBuilderPage() {
   }, [ketcherReady, runScoring, fetchSuppliers]);
 
   return (
-    <div style={{ height: 'calc(100vh - 80px)', padding: 'var(--space-md)', display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+    <div style={{ height: 'calc(100vh - 80px)', padding: 'var(--space-md)', display: 'flex', flexDirection: 'column', gap: 'var(--space-md)', overflow: 'hidden' }}>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
         <div>
           <h1 style={{ fontSize: 'var(--font-xl)', color: 'var(--text-primary)', fontWeight: 600, margin: 0 }}>
-            Éditeur de Molécules (Ketcher V3)
+            Editeur de Molecules (Ketcher V3)
           </h1>
           <p style={{ color: 'var(--text-secondary)', margin: '4px 0 0', fontSize: 'var(--font-sm)' }}>
-            Analyse IA en temps réel · Fournisseurs mondiaux · Annotations visuelles
+            Analyse IA en temps reel . Fournisseurs mondiaux . Annotations visuelles
           </p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
           {ketcherReady ? (
             <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 'var(--font-xs)', color: '#10b981' }}>
               <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#10b981', display: 'inline-block' }} />
-              Ketcher connecté
+              Ketcher connecte
             </span>
           ) : (
             <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 'var(--font-xs)', color: '#f59e0b' }}>
               <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#f59e0b', display: 'inline-block', animation: 'pulse 1.5s infinite' }} />
-              Initialisation Ketcher…
+              Initialisation Ketcher...
             </span>
           )}
           {currentSmiles && (
@@ -165,12 +165,12 @@ export default function MoleculeBuilderPage() {
 
       {/* Main layout: Ketcher + AI Sidebar */}
       <div style={{ display: 'flex', gap: 'var(--space-md)', flex: 1, minHeight: 0 }}>
-        {/* Ketcher editor */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+        {/* Ketcher editor + supplier panel */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
           <div style={{
             flex: 1, background: '#fff', borderRadius: 'var(--radius-lg)',
             overflow: 'hidden', border: '1px solid var(--border-primary)',
-            boxShadow: '0 2px 8px rgba(0,0,0,.05)'
+            boxShadow: '0 2px 8px rgba(0,0,0,.05)', minHeight: 0
           }}>
             <iframe
               ref={iframeRef}
@@ -181,45 +181,48 @@ export default function MoleculeBuilderPage() {
             />
           </div>
 
-          {/* Supplier section below Ketcher */}
-          {(supplyData || supplyLoading) && (
-            <div style={{
-              marginTop: 'var(--space-md)', background: 'var(--bg-secondary)',
-              borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-primary)',
-              overflow: 'hidden'
-            }}>
-              {/* Tab bar */}
-              <div style={{ display: 'flex', borderBottom: '1px solid var(--border-primary)' }}>
-                <TabBtn active={activeTab === 'map'} onClick={() => setActiveTab('map')}>
-                  <Map size={14} style={{ display: 'inline' }} /> Carte Fournisseurs {supplyData ? `(${supplyData.suppliers.length})` : ''}
-                </TabBtn>
-                <TabBtn active={activeTab === 'table'} onClick={() => setActiveTab('table')}>
-                  <ClipboardList size={14} style={{ display: 'inline' }} /> Tableau Comparatif
-                </TabBtn>
-                {supplyData?.risk_level && (
-                  <div style={{ marginLeft: 'auto', padding: '8px 16px', display: 'flex', alignItems: 'center', gap: 6, fontSize: 11 }}>
-                    Risque: <span style={{
-                      padding: '2px 8px', borderRadius: 10, fontWeight: 600,
-                      background: supplyData.risk_level === 'Low' ? 'rgba(16,185,129,.1)' : supplyData.risk_level === 'Elevated' ? 'rgba(239,68,68,.1)' : 'rgba(245,158,11,.1)',
-                      color: supplyData.risk_level === 'Low' ? '#10b981' : supplyData.risk_level === 'Elevated' ? '#ef4444' : '#f59e0b'
-                    }}>{supplyData.risk_level}</span>
-                  </div>
-                )}
-              </div>
-
-              {/* Tab content */}
-              <div style={{ height: 280 }}>
-                {activeTab === 'map' ? (
-                  <SupplierMap suppliers={supplyData?.suppliers || []} />
-                ) : (
-                  <SupplierTable suppliers={supplyData?.suppliers || []} loading={supplyLoading} />
-                )}
-              </div>
+          {/* Supplier section -- ALWAYS visible */}
+          <div style={{
+            marginTop: 'var(--space-md)', background: 'var(--bg-secondary)',
+            borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-primary)',
+            overflow: 'hidden', flexShrink: 0
+          }}>
+            {/* Tab bar */}
+            <div style={{ display: 'flex', borderBottom: '1px solid var(--border-primary)' }}>
+              <TabBtn active={activeTab === 'map'} onClick={() => setActiveTab('map')}>
+                <Map size={14} style={{ display: 'inline' }} /> Carte Fournisseurs {supplyData ? `(${supplyData.suppliers.length})` : ''}
+              </TabBtn>
+              <TabBtn active={activeTab === 'table'} onClick={() => setActiveTab('table')}>
+                <ClipboardList size={14} style={{ display: 'inline' }} /> Tableau Comparatif
+              </TabBtn>
+              {supplyData?.risk_level && (
+                <div style={{ marginLeft: 'auto', padding: '8px 16px', display: 'flex', alignItems: 'center', gap: 6, fontSize: 11 }}>
+                  Risque: <span style={{
+                    padding: '2px 8px', borderRadius: 10, fontWeight: 600,
+                    background: supplyData.risk_level === 'Low' ? 'rgba(16,185,129,.1)' : supplyData.risk_level === 'Elevated' ? 'rgba(239,68,68,.1)' : 'rgba(245,158,11,.1)',
+                    color: supplyData.risk_level === 'Low' ? '#10b981' : supplyData.risk_level === 'Elevated' ? '#ef4444' : '#f59e0b'
+                  }}>{supplyData.risk_level}</span>
+                </div>
+              )}
             </div>
-          )}
+
+            {/* Tab content */}
+            <div style={{ height: 260, overscrollBehavior: 'contain' }}>
+              {!supplyData && !supplyLoading ? (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-tertiary)', fontSize: 'var(--font-sm)', flexDirection: 'column', gap: 8 }}>
+                  <Map size={32} strokeWidth={1} color="var(--text-tertiary)" />
+                  <span>Dessinez une molecule pour afficher les fournisseurs</span>
+                </div>
+              ) : activeTab === 'map' ? (
+                <SupplierMap suppliers={supplyData?.suppliers || []} />
+              ) : (
+                <SupplierTable suppliers={supplyData?.suppliers || []} loading={supplyLoading} />
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* AI Sidebar */}
+        {/* AI Sidebar -- scroll isolated */}
         <AISidebar result={scoringResult} loading={scoringLoading} />
       </div>
     </div>

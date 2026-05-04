@@ -1,49 +1,37 @@
-# Requirements — Milestone v2.0: Live Molecular Intelligence
+# Requirements -- Milestone v3.0: Platform Enrichment & ADWYA Data
 
-## Formulation & AI Intelligence
+## UX Fixes
 
-- [ ] **KETCHER-01**: Scientist can draw/edit molecules in Ketcher and the system reads the structure in real-time via Ketcher API (`getSmiles()`, `getMolfile()`)
-- [ ] **KETCHER-02**: System can programmatically inject highlights, annotations, and atom-level markers onto the Ketcher canvas via `setMolecule()` and highlight APIs
-- [ ] **AI-01**: AI viability analysis runs automatically (debounced) whenever the molecule structure changes in Ketcher
-- [ ] **AI-02**: AI scoring results (viability, ADMET predictions, incompatibilities) are displayed in a live sidebar panel that updates without page reload
-- [ ] **AI-03**: AI visually annotates problematic functional groups/bonds directly on the Ketcher canvas with color-coded highlights and tooltips explaining each issue
+- [ ] **UX-01**: Map and table always visible, showing placeholder when no molecule is drawn
+- [ ] **UX-02**: Fix scroll conflict between page scroll and widget scroll (map, table, sidebar)
+- [ ] **UX-03**: Map updates live when supplier data changes (no stale state)
 
-## Supplier Intelligence
+## Medications Database
 
-- [ ] **SUPPLY-01**: For each molecule or key ingredient, fetch real supplier data (company, location, price, availability status) from live public APIs (PubChem, ChEMBL, FDA/EMA)
-- [ ] **SUPPLY-02**: Display supplier locations on an interactive geographical map (Leaflet/MapLibre) with color-coded availability markers
-- [ ] **SUPPLY-03**: Show pricing comparison table with supplier details, lead times, and stock status
-- [ ] **SUPPLY-04**: All supplier API calls are proxied through Supabase Edge Functions for audit compliance
+- [ ] **MED-01**: Add "Medicaments" section in left sidebar
+- [ ] **MED-02**: Pre-populate with real ADWYA medications data (scraped from public sources)
+- [ ] **MED-03**: CSV import/export functionality for medication lists
+- [ ] **MED-04**: Medication detail view with DCI, dosage, form, therapeutic class
+- [ ] **MED-05**: Update dashboard KPIs based on ADWYA medication portfolio
 
-## Data Integrity
+## Wiki / Guide
 
-- [ ] **DATA-01**: All molecule, supplier, and pricing data comes from real public APIs — zero mock/hardcoded data in production
-- [ ] **DATA-02**: API responses are cached in Supabase with TTL to avoid rate limiting while keeping data fresh
+- [ ] **WIKI-01**: Rich wiki-style guide replacing the basic Guide Utilisateur page
+- [ ] **WIKI-02**: Wiki hosted at /wiki subdirectory with ADWYA theme
+- [ ] **WIKI-03**: Use modern open-source wiki engine adapted to site theme
 
 ## Traceability
 
 | REQ-ID | Phase |
 |--------|-------|
-| KETCHER-01 | Phase 6 |
-| KETCHER-02 | Phase 6 |
-| AI-01 | Phase 7 |
-| AI-02 | Phase 7 |
-| AI-03 | Phase 7 |
-| SUPPLY-01 | Phase 8 |
-| SUPPLY-02 | Phase 8 |
-| SUPPLY-03 | Phase 8 |
-| SUPPLY-04 | Phase 8 |
-| DATA-01 | Phase 9 |
-| DATA-02 | Phase 9 |
-
-## Future Requirements (Deferred)
-
-- Molecule synthesis pathway planning
-- Batch formulation comparison (side-by-side AI scoring)
-- Supplier contract negotiation tools
-
-## Out of Scope
-
-- Building proprietary AI/ML models — external services used
-- Direct client-side API calls — all proxied through Supabase
-- Real-time multi-user collaboration on the same molecule — future milestone
+| UX-01 | Phase 10 |
+| UX-02 | Phase 10 |
+| UX-03 | Phase 10 |
+| MED-01 | Phase 11 |
+| MED-02 | Phase 11 |
+| MED-03 | Phase 11 |
+| MED-04 | Phase 11 |
+| MED-05 | Phase 11 |
+| WIKI-01 | Phase 12 |
+| WIKI-02 | Phase 12 |
+| WIKI-03 | Phase 12 |

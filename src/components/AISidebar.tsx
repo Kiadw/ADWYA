@@ -147,7 +147,8 @@ const panelStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   overflow: 'auto',
-  maxHeight: 'calc(100vh - 120px)'
+  maxHeight: 'calc(100vh - 120px)',
+  overscrollBehavior: 'contain'
 };
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
