@@ -3,7 +3,7 @@ status: planning
 milestone: v2.0
 name: Live Molecular Intelligence
 progress:
-  total: 0
+  total: 4
   completed: 0
 ---
 
@@ -18,10 +18,10 @@ See: .planning/PROJECT.md
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 6 — Deep Ketcher API Integration
 Plan: —
-Status: Defining requirements
-Last activity: 2026-05-04 — Milestone v2.0 started
+Status: Ready to plan
+Last activity: 2026-05-04 — Milestone v2.0 roadmap approved
 
 ## Accumulated Context
 
