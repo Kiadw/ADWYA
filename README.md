@@ -73,48 +73,7 @@ L'innovation majeure de la plateforme réside dans son architecture backend déc
 
 Le schéma ci-dessous détaille le flux des données depuis le navigateur du bio-ingénieur jusqu'aux modèles de Machine Learning.
 
-```mermaid
-graph TD
-    subgraph Frontend [Frontend - Next.js]
-        A["Interface Utilisateur ADWYA"]
-        B["AuthGuard & Supabase Auth"]
-        C["Rendu Canvas 2D/3D <br> smiles-drawer / Ketcher"]
-        D["Dashboard Dynamique"]
-    end
-
-    subgraph BackendaaS [Supabase - Données & Sécurité]
-        E[("PostgreSQL DB")]
-        F["Gestion des Sessions JWT"]
-        G["Edge Functions & Triggers"]
-    end
-
-    subgraph AIBackend [Backend IA & Web Scraping - Python / AWS]
-        H["API Gateway / FastAPI"]
-        I["Message Broker <br> Celery / Redis"]
-        J["Modèles GNN <br> Propriétés Moléculaires"]
-        K["NLP / LLMs <br> Classification Médicale"]
-        L["Workers Selenium <br> Scraping Fournisseurs"]
-    end
-
-    %% Connexions Frontend -> Backend
-    A <-->|Requêtes REST / Realtime| E
-    B <-->|Authentification Sécurisée| F
-    D <-->|CRUD User Metadata| F
-    
-    %% Connexions Supabase -> IA
-    E -->|Webhooks via Triggers| H
-    H -->|Distribution de la charge asynchrone| I
-    
-    %% Pipeline IA
-    I -->|Analyse Structurale SMILES| J
-    I -->|Analyse Sémantique (DCI)| K
-    I -->|Recherche de disponibilité| L
-    
-    %% Retour vers DB
-    J -->|Mise à jour des Scores IA| E
-    K -->|Catégorisation et Tags| E
-    L -->|Risque Supply Chain & Mapping| E
-```
+![Architecture Système](public/architecture-system.svg)
 
 ### 2. Le Pipeline d'Intelligence Artificielle (Deep Dive)
 
@@ -130,31 +89,7 @@ Les textes médicaux (DCI, indications thérapeutiques) sont passés dans des mo
 
 #### Flux de Séquence de l'Analyse IA
 
-```mermaid
-sequenceDiagram
-    participant UI as Bio-Ingénieur (UI)
-    participant DB as Supabase
-    participant API as FastAPI (Backend)
-    participant GNN as Modèle GNN (Chimie)
-    participant NLP as Modèle NLP (Texte)
-    
-    UI->>DB: Ajout / Modification (SMILES + DCI)
-    DB->>API: Webhook : Nouvelle molécule détectée
-    
-    par Analyse Parallèle
-        API->>GNN: Envoi de la chaîne SMILES
-        Note over GNN: Conversion en Graphe<br/>Calcul des descripteurs ADMET
-        GNN-->>API: Prédiction (Toxicité, Interactions)
-        
-        API->>NLP: Envoi de la documentation clinique
-        Note over NLP: Extraction des Entités (NER)<br/>Analyse Sémantique
-        NLP-->>API: Classification & Contre-indications
-    end
-    
-    API->>API: Agrégation et Calcul du Score de Confiance Global
-    API->>DB: Mise à jour (Score IA, Flags d'Alerte)
-    DB-->>UI: Rafraîchissement Temps Réel (WebSockets)
-```
+![Flux de Séquence IA](public/architecture-ai.svg)
 
 ### 3. Les Workers de Web Scraping (Selenium/AWS)
 
