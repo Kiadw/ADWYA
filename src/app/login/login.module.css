@@ -1,109 +1,106 @@
 /* =========================================
-   STITCH-STYLE LOGIN — Magnetic Distortion + Vibe Glow
+   LOGIN — Matches Platform Light Theme + Stitch Hover
    ========================================= */
 
 .loginContainer {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-color: #0a0a0f;
+  background: var(--bg-primary);
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   --mouse-x: 50vw;
   --mouse-y: 50vh;
-  cursor: none; /* Custom cursor */
 }
 
 /* =========================================
-   Grid Pattern (Stitch infinite canvas vibe)
+   Subtle Grid (platform-consistent)
    ========================================= */
 .gridPattern {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background-image: 
-    linear-gradient(to right, rgba(99, 102, 241, 0.06) 1px, transparent 1px), 
-    linear-gradient(to bottom, rgba(99, 102, 241, 0.06) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, var(--border-primary) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border-primary) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.4;
 }
 
 .gridGlow {
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    800px circle at var(--mouse-x) var(--mouse-y),
-    rgba(99, 102, 241, 0.08),
+    600px circle at var(--mouse-x) var(--mouse-y),
+    rgba(96, 178, 70, 0.07),
     transparent 40%
   );
   z-index: 2;
   pointer-events: none;
-  transition: background 0.1s ease;
 }
 
 /* =========================================
-   Custom Cursor Aura (Stitch focus ring)
+   Floating SMILES Strings
    ========================================= */
-.cursorAura {
-  position: fixed;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(99, 102, 241, 0.5);
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 9999;
-  transition: width 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), 
-              height 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-              border-color 0.2s ease;
-  mix-blend-mode: screen;
-}
-
-/* =========================================
-   3D Molecule Particles
-   ========================================= */
-.modelWrapper {
+.smilesLayer {
   position: absolute;
   inset: 0;
   z-index: 3;
   pointer-events: none;
+  overflow: hidden;
 }
 
-/* =========================================
-   Floating molecule name labels
-   ========================================= */
-.moleculeLabels {
+.smilesItem {
   position: absolute;
-  inset: 0;
-  z-index: 4;
-  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: floatSmiles 28s infinite ease-in-out;
+  opacity: 0;
 }
 
-.moleculeTag {
-  position: absolute;
-  font-size: 10px;
+.smilesString {
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.06em;
-  color: rgba(99, 102, 241, 0.35);
-  font-family: 'SF Mono', 'Fira Code', monospace;
-  animation: floatTag 20s infinite ease-in-out;
-  text-transform: uppercase;
+  color: var(--accent-primary);
+  opacity: 0.2;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  transition: opacity 0.5s ease;
 }
 
-.moleculeTag:nth-child(1) { top: 15%; left: 8%; }
-.moleculeTag:nth-child(2) { top: 65%; left: 12%; }
-.moleculeTag:nth-child(3) { top: 30%; left: 55%; }
-.moleculeTag:nth-child(4) { top: 80%; left: 5%; }
-.moleculeTag:nth-child(5) { top: 10%; left: 40%; }
-.moleculeTag:nth-child(6) { top: 55%; left: 35%; }
+.smilesLabel {
+  font-family: var(--font-family);
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  opacity: 0.35;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
 
-@keyframes floatTag {
-  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
-  25% { transform: translateY(-12px) translateX(5px); opacity: 0.5; }
-  50% { transform: translateY(-6px) translateX(-3px); opacity: 0.25; }
-  75% { transform: translateY(-18px) translateX(8px); opacity: 0.45; }
+/* Position each SMILES string across the left 65% of the screen */
+.smilesItem:nth-child(1)  { top: 6%;  left: 3%;  }
+.smilesItem:nth-child(2)  { top: 18%; left: 22%; }
+.smilesItem:nth-child(3)  { top: 30%; left: 5%;  }
+.smilesItem:nth-child(4)  { top: 42%; left: 28%; }
+.smilesItem:nth-child(5)  { top: 54%; left: 8%;  }
+.smilesItem:nth-child(6)  { top: 66%; left: 35%; }
+.smilesItem:nth-child(7)  { top: 78%; left: 12%; }
+.smilesItem:nth-child(8)  { top: 14%; left: 42%; }
+.smilesItem:nth-child(9)  { top: 50%; left: 45%; }
+.smilesItem:nth-child(10) { top: 88%; left: 30%; }
+
+@keyframes floatSmiles {
+  0%   { opacity: 0; transform: translateY(8px); }
+  8%   { opacity: 1; transform: translateY(0); }
+  42%  { opacity: 1; transform: translateY(-12px) translateX(6px); }
+  58%  { opacity: 1; transform: translateY(-8px) translateX(-4px); }
+  92%  { opacity: 1; transform: translateY(-16px) translateX(3px); }
+  100% { opacity: 0; transform: translateY(-20px); }
 }
 
 /* =========================================
@@ -111,67 +108,72 @@
    ========================================= */
 .brandTop {
   position: absolute;
-  top: 36px;
-  left: 40px;
+  top: var(--space-xl);
+  left: var(--space-xl);
   z-index: 10;
   pointer-events: none;
 }
 
 .brandName {
-  font-size: 28px;
+  font-size: var(--font-3xl);
   font-weight: 900;
-  color: #ffffff;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   letter-spacing: -0.5px;
   margin: 0;
 }
 
 .brandSub {
-  font-size: 11px;
-  font-weight: 600;
-  color: #6366f1;
+  font-size: var(--font-xs);
+  font-weight: 700;
+  color: var(--accent-primary);
   text-transform: uppercase;
-  letter-spacing: 3px;
-  margin: 2px 0 0 0;
+  letter-spacing: 2px;
+  margin: -2px 0 0 1px;
 }
 
 /* =========================================
-   Footer description
+   Footer
    ========================================= */
 .footerText {
   position: absolute;
-  bottom: 32px;
-  left: 40px;
+  bottom: var(--space-xl);
+  left: var(--space-xl);
   z-index: 10;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: var(--font-sm);
+  color: var(--text-tertiary);
   font-weight: 500;
-  max-width: 400px;
+  max-width: 380px;
   pointer-events: none;
-  line-height: 1.6;
+  background: var(--bg-glass);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-primary);
 }
 
 /* =========================================
-   FORM CARD — Stitch Magnetic Tilt + Vibe Glow
+   FORM CARD — Platform card style + Stitch tilt
    ========================================= */
 .formCard {
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 400px;
-  padding: 40px;
-  background: rgba(15, 15, 25, 0.75);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: 1px solid rgba(99, 102, 241, 0.12);
-  box-shadow: 
-    0 0 0 1px rgba(99, 102, 241, 0.05),
-    0 20px 60px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  border-radius: 20px;
+  max-width: 420px;
+  padding: var(--space-3xl);
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius-xl);
   margin-right: 8vw;
-  /* Spring-based transition for magnetic tilt */
+  /* Spring-based transition for Stitch magnetic tilt */
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-              box-shadow 0.3s ease;
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
   will-change: transform;
   overflow: hidden;
   --glow-x: 50%;
@@ -180,20 +182,17 @@
 }
 
 .formCard:hover {
-  border-color: rgba(99, 102, 241, 0.25);
-  box-shadow: 
-    0 0 0 1px rgba(99, 102, 241, 0.1),
-    0 30px 80px rgba(0, 0, 0, 0.6),
-    0 0 40px rgba(99, 102, 241, 0.06);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
 }
 
-/* Stitch "Design Agent Aura" -- masked glow spotlight */
+/* Stitch Vibe Glow — ADWYA green aura */
 .formGlow {
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    300px circle at var(--glow-x) var(--glow-y),
-    rgba(99, 102, 241, 0.12),
+    280px circle at var(--glow-x) var(--glow-y),
+    rgba(96, 178, 70, 0.06),
     transparent 60%
   );
   opacity: var(--glow-opacity);
@@ -205,100 +204,95 @@
 @media (max-width: 1024px) {
   .loginContainer {
     justify-content: center;
-    cursor: auto;
   }
   .formCard {
     margin-right: 0;
-    margin: 0 20px;
+    margin: 0 var(--space-lg);
   }
-  .cursorAura { display: none; }
 }
 
 /* =========================================
-   Form Elements
+   Form Elements — Platform-consistent
    ========================================= */
 .formHeader {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: var(--space-2xl);
   position: relative;
   z-index: 1;
 }
 
 .formTitle {
-  font-size: 26px;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0 0 4px 0;
-  letter-spacing: -0.3px;
+  font-size: var(--font-3xl);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-xs) 0;
+  letter-spacing: -0.5px;
 }
 
 .formSubtitle {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.45);
-  font-weight: 400;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
   margin: 0;
 }
 
 .errorBox {
-  padding: 10px 14px;
-  border-radius: 10px;
-  background-color: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  color: #ef4444;
-  font-size: 13px;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background-color: rgba(220, 38, 38, 0.05);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  color: #dc2626;
+  font-size: var(--font-sm);
   font-weight: 500;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--space-lg);
   position: relative;
   z-index: 1;
 }
 
 .formGroup {
-  margin-bottom: 20px;
+  margin-bottom: var(--space-lg);
   position: relative;
   z-index: 1;
 }
 
 .formLabel {
   display: block;
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 6px;
-  letter-spacing: 0.02em;
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
 }
 
 .formInput {
   width: 100%;
-  padding: 12px 16px;
-  border-radius: 10px;
-  border: 1px solid rgba(99, 102, 241, 0.15);
-  background: rgba(255, 255, 255, 0.04);
-  font-family: inherit;
-  font-size: 14px;
-  color: #ffffff;
-  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-primary);
+  background: var(--bg-input);
+  font-family: var(--font-family);
+  font-size: var(--font-md);
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
   outline: none;
 }
 
 .formInput::placeholder {
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--text-tertiary);
 }
 
 .formInput:focus {
-  border-color: rgba(99, 102, 241, 0.5);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08), 0 0 20px rgba(99, 102, 241, 0.06);
-  background: rgba(255, 255, 255, 0.06);
-  /* Stitch active morphing -- slight Z-axis lift */
-  transform: translateY(-1px);
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-glow);
+  background: var(--bg-secondary);
 }
 
 .formOptions {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 12px;
-  margin-bottom: 24px;
+  font-size: var(--font-sm);
+  margin-bottom: var(--space-lg);
   position: relative;
   z-index: 1;
 }
@@ -306,60 +300,54 @@
 .checkboxLabel {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-sm);
   cursor: pointer;
-  color: rgba(255, 255, 255, 0.45);
-  font-weight: 400;
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .checkboxLabel input[type="checkbox"] {
-  accent-color: #6366f1;
+  accent-color: var(--accent-primary);
 }
 
 .link {
-  color: #6366f1;
-  font-weight: 500;
-  transition: color 0.2s ease;
+  color: var(--accent-primary);
+  font-weight: 600;
+  transition: color var(--transition-fast);
   text-decoration: none;
 }
 
 .link:hover {
-  color: #818cf8;
+  color: var(--accent-tertiary);
 }
 
 /* =========================================
-   Submit Button — Stitch "Active Morphing"
+   Submit Button — Platform primary style
    ========================================= */
 .submitBtn {
   width: 100%;
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
-  color: #ffffff;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: white;
   font-weight: 600;
-  padding: 13px 20px;
-  border-radius: 12px;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
   border: none;
-  font-size: 14px;
-  font-family: inherit;
+  font-size: var(--font-md);
+  font-family: var(--font-family);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
   position: relative;
   z-index: 1;
-  letter-spacing: 0.02em;
 }
 
 .submitBtn:hover:not(:disabled) {
-  transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.35), 0 0 40px rgba(99, 102, 241, 0.1);
-}
-
-.submitBtn:active:not(:disabled) {
-  transform: translateY(0) scale(0.99);
-  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.15);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow-accent);
 }
 
 .submitBtn:disabled {
-  opacity: 0.4;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -367,12 +355,11 @@
    Address Footer
    ========================================= */
 .addressFooter {
-  margin-top: 28px;
+  margin-top: var(--space-2xl);
   text-align: center;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.2);
-  font-weight: 400;
-  letter-spacing: 0.03em;
+  font-size: var(--font-xs);
+  color: var(--text-tertiary);
+  font-weight: 500;
   position: relative;
   z-index: 1;
 }

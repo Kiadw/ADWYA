@@ -1,26 +1,33 @@
 'use client';
 
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import dynamic from 'next/dynamic';
 import styles from './login.module.css';
 
-// Lazy-load 3D to avoid SSR issues
-const MoleculeParticles = dynamic(() => import('@/components/MoleculeParticles'), { ssr: false });
+/** Real SMILES from ADWYA medications database */
+const FLOATING_SMILES = [
+  { name: 'Losartan', smiles: 'CCCC1=NC(=C(N1CC2=CC=C(C=C2)C3=CC=CC=C3C4=NN=N[NH]4)CO)Cl' },
+  { name: 'Paracetamol', smiles: 'CC(=O)NC1=CC=C(C=C1)O' },
+  { name: 'Metformine', smiles: 'CN(C)C(=N)NC(=N)N' },
+  { name: 'Amoxicilline', smiles: 'CC1(C(N2C(S1)C(C2=O)NC(=O)C(C3=CC=C(C=C3)O)N)C(=O)O)C' },
+  { name: 'Fluoxetine', smiles: 'CNCCC(C1=CC=CC=C1)OC2=CC=C(C=C2)C(F)(F)F' },
+  { name: 'Ibuprofene', smiles: 'CC(C)CC1=CC=C(C=C1)C(C)C(=O)O' },
+  { name: 'Omeprazole', smiles: 'CC1=CN=C(C(=C1OC)C)CS(=O)C2=NC3=CC=CC=C3N2' },
+  { name: 'Amlodipine', smiles: 'CCOC(=O)C1=C(NC(=C(C1C2=CC=CC=C2Cl)C(=O)OC)C)COCCN' },
+  { name: 'Enalapril', smiles: 'CCOC(=O)C(CCC1=CC=CC=C1)NC(C)C(=O)N1CCCC1C(=O)O' },
+  { name: 'Atorvastatine', smiles: 'CC(C)C1=C(C(=CC=C1)C2=CC=CC=C2)N3C=C(C(C3=O)O)CC(CC(=O)O)O' },
+];
 
 export default function LoginPage() {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
-  const btnRef = useRef<HTMLButtonElement>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  // --- STITCH MAGNETIC DISTORTION ---
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
@@ -28,29 +35,25 @@ export default function LoginPage() {
     const y = e.clientY - rect.top;
     containerRef.current.style.setProperty('--mouse-x', `${x}px`);
     containerRef.current.style.setProperty('--mouse-y', `${y}px`);
-    setMousePos({ x: e.clientX, y: e.clientY });
 
-    // Magnetic tilt on form card (Stitch parallax-weighted tilt)
+    // Stitch magnetic tilt on form card
     if (formRef.current) {
       const formRect = formRef.current.getBoundingClientRect();
-      const formCenterX = formRect.left + formRect.width / 2;
-      const formCenterY = formRect.top + formRect.height / 2;
-      const distX = (e.clientX - formCenterX) / formRect.width;
-      const distY = (e.clientY - formCenterY) / formRect.height;
-      const dist = Math.sqrt(distX * distX + distY * distY);
-      
+      const cx = formRect.left + formRect.width / 2;
+      const cy = formRect.top + formRect.height / 2;
+      const dx = (e.clientX - cx) / formRect.width;
+      const dy = (e.clientY - cy) / formRect.height;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
       if (dist < 1.5) {
-        // Magnetic fluidity -- element leans toward cursor
-        const tiltX = distY * -4;
-        const tiltY = distX * 4;
-        const scale = 1 + Math.max(0, 0.015 - dist * 0.01);
-        formRef.current.style.transform = `perspective(1200px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(${scale})`;
-        // Vibe Glow -- spotlight within bounds
-        formRef.current.style.setProperty('--glow-x', `${(distX + 0.5) * 100}%`);
-        formRef.current.style.setProperty('--glow-y', `${(distY + 0.5) * 100}%`);
-        formRef.current.style.setProperty('--glow-opacity', `${Math.max(0, 1 - dist)}` );
+        const tiltX = dy * -3;
+        const tiltY = dx * 3;
+        formRef.current.style.transform = `perspective(1200px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+        formRef.current.style.setProperty('--glow-x', `${(dx + 0.5) * 100}%`);
+        formRef.current.style.setProperty('--glow-y', `${(dy + 0.5) * 100}%`);
+        formRef.current.style.setProperty('--glow-opacity', `${Math.max(0, 0.6 - dist * 0.4)}`);
       } else {
-        formRef.current.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)';
+        formRef.current.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
         formRef.current.style.setProperty('--glow-opacity', '0');
       }
     }
@@ -58,7 +61,7 @@ export default function LoginPage() {
 
   const handleMouseLeave = useCallback(() => {
     if (formRef.current) {
-      formRef.current.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)';
+      formRef.current.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
       formRef.current.style.setProperty('--glow-opacity', '0');
     }
   }, []);
@@ -68,10 +71,7 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
       setError(error.message);
@@ -82,26 +82,28 @@ export default function LoginPage() {
   };
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={styles.loginContainer}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Stitch Grid Background */}
+      {/* Grid background with cursor glow */}
       <div className={styles.gridPattern}>
         <div className={styles.gridGlow} />
       </div>
 
-      {/* Pointille molecule particles (replaces 3D building) */}
-      <div className={styles.modelWrapper}>
-        <MoleculeParticles />
+      {/* Floating SMILES strings */}
+      <div className={styles.smilesLayer}>
+        {FLOATING_SMILES.map((mol, i) => (
+          <div key={mol.name} className={styles.smilesItem} style={{ animationDelay: `${i * 2.1}s` }}>
+            <span className={styles.smilesString}>{mol.smiles}</span>
+            <span className={styles.smilesLabel}>{mol.name}</span>
+          </div>
+        ))}
       </div>
 
-      {/* Custom cursor aura */}
-      <div className={styles.cursorAura} style={{ left: mousePos.x, top: mousePos.y }} />
-
-      {/* Brand */}
+      {/* Brand top-left */}
       <div className={styles.brandTop}>
         <h2 className={styles.brandName}>ADWYA</h2>
         <p className={styles.brandSub}>PharmaTech Hub</p>
@@ -111,44 +113,34 @@ export default function LoginPage() {
         <p>Plateforme securisee d&apos;analyse, structuration et classification des donnees pharmaceutiques.</p>
       </div>
 
-      {/* Molecule labels floating */}
-      <div className={styles.moleculeLabels}>
-        {['Losartan', 'Paracetamol', 'Metformine', 'Amoxicilline', 'Fluoxetine', 'Ibuprofene'].map((name, i) => (
-          <span key={name} className={styles.moleculeTag} style={{ animationDelay: `${i * 0.8}s` }}>{name}</span>
-        ))}
-      </div>
-
-      {/* Form with Stitch magnetic tilt + vibe glow */}
+      {/* Form card */}
       <div ref={formRef} className={styles.formCard}>
-        {/* Inner glow spotlight (Stitch "Design Agent Aura") */}
         <div className={styles.formGlow} />
-        
+
         <div className={styles.formHeader}>
           <h1 className={styles.formTitle}>Connexion</h1>
           <p className={styles.formSubtitle}>Acces securise au reseau ADWYA</p>
         </div>
 
         <form onSubmit={handleLogin}>
-          {error && (
-            <div className={styles.errorBox}>{error}</div>
-          )}
-          
+          {error && <div className={styles.errorBox}>{error}</div>}
+
           <div className={styles.formGroup}>
             <label className={styles.formLabel}>Adresse Email</label>
-            <input 
+            <input
               type="email" required value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="nom@adwya.com.tn" 
+              placeholder="nom@adwya.com.tn"
               className={styles.formInput}
             />
           </div>
-          
+
           <div className={styles.formGroup}>
             <label className={styles.formLabel}>Mot de passe</label>
-            <input 
+            <input
               type="password" required value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="********" 
+              placeholder="********"
               className={styles.formInput}
             />
           </div>
@@ -161,12 +153,7 @@ export default function LoginPage() {
             <a href="#" className={styles.link}>Oublie ?</a>
           </div>
 
-          <button 
-            ref={btnRef}
-            type="submit" 
-            disabled={loading}
-            className={styles.submitBtn}
-          >
+          <button type="submit" disabled={loading} className={styles.submitBtn}>
             {loading ? 'Connexion en cours...' : 'Se Connecter'}
           </button>
         </form>
