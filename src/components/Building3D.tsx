@@ -1,9 +1,15 @@
 'use client';
 
-import { useRef, useMemo } from 'react';
+import { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, OrbitControls, Float, ContactShadows, Text, MeshDistortMaterial } from '@react-three/drei';
+import { Environment, OrbitControls, Float, ContactShadows, Text } from '@react-three/drei';
 import * as THREE from 'three';
+
+// Monochrome, minimalist colors
+const COLOR_MAIN = "#f8fafc";
+const COLOR_SECONDARY = "#e2e8f0";
+const COLOR_GLASS = "#ffffff";
+const COLOR_TEXT = "#94a3b8";
 
 function PalmTree({ position }: { position: [number, number, number] }) {
   return (
@@ -11,41 +17,17 @@ function PalmTree({ position }: { position: [number, number, number] }) {
       {/* Trunk */}
       <mesh position={[0, 0.5, 0]}>
         <cylinderGeometry args={[0.05, 0.1, 1, 8]} />
-        <meshStandardMaterial color="#8B5A2B" roughness={0.9} />
+        <meshStandardMaterial color={COLOR_SECONDARY} roughness={0.8} />
       </mesh>
       {/* Leaves */}
       <mesh position={[0, 1.2, 0]}>
         <sphereGeometry args={[0.4, 7, 7]} />
-        <meshStandardMaterial color="#2E8B57" roughness={0.6} />
+        <meshStandardMaterial color={COLOR_MAIN} roughness={0.6} />
       </mesh>
       <mesh position={[0, 1.1, 0]} scale={[1.5, 0.3, 1.5]}>
         <sphereGeometry args={[0.3, 7, 7]} />
-        <meshStandardMaterial color="#3CB371" roughness={0.6} />
+        <meshStandardMaterial color={COLOR_MAIN} roughness={0.6} />
       </mesh>
-    </group>
-  );
-}
-
-function StopSign({ position }: { position: [number, number, number] }) {
-  return (
-    <group position={position}>
-      <mesh position={[0, 0.3, 0]}>
-        <cylinderGeometry args={[0.02, 0.02, 0.6, 8]} />
-        <meshStandardMaterial color="#cbd5e1" />
-      </mesh>
-      <mesh position={[0, 0.6, 0.02]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.15, 0.15, 0.02, 8]} />
-        <meshStandardMaterial color="#ef4444" />
-      </mesh>
-      <Text
-        position={[0, 0.6, 0.04]}
-        fontSize={0.08}
-        color="white"
-        anchorX="center"
-        anchorY="middle"
-      >
-        STOP
-      </Text>
     </group>
   );
 }
@@ -55,7 +37,7 @@ function AdwyaBuilding() {
 
   useFrame((state) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.2) * 0.1;
+      groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.1) * 0.05;
     }
   });
 
@@ -64,58 +46,52 @@ function AdwyaBuilding() {
       {/* Main Building Base */}
       <mesh position={[0, 0.5, 0]}>
         <boxGeometry args={[4, 1, 2]} />
-        <meshStandardMaterial color="#ffffff" roughness={0.1} metalness={0.1} />
+        <meshStandardMaterial color={COLOR_MAIN} roughness={0.2} />
       </mesh>
       
       {/* Left Wing */}
       <mesh position={[-2.5, 0.4, 0]}>
         <boxGeometry args={[1.5, 0.8, 1.5]} />
-        <meshStandardMaterial color="#f8fafc" roughness={0.2} />
+        <meshStandardMaterial color={COLOR_MAIN} roughness={0.2} />
       </mesh>
 
       {/* Right Wing */}
       <mesh position={[2.5, 0.4, 0]}>
         <boxGeometry args={[1.5, 0.8, 1.5]} />
-        <meshStandardMaterial color="#f8fafc" roughness={0.2} />
+        <meshStandardMaterial color={COLOR_MAIN} roughness={0.2} />
       </mesh>
 
       {/* Upper Floor */}
       <mesh position={[0, 1.3, -0.2]}>
         <boxGeometry args={[2.5, 0.6, 1.5]} />
-        <meshStandardMaterial color="#ffffff" roughness={0.1} />
+        <meshStandardMaterial color={COLOR_MAIN} roughness={0.2} />
       </mesh>
 
       {/* Windows Base */}
       <mesh position={[0, 0.5, 1.01]}>
         <boxGeometry args={[3.8, 0.6, 0.01]} />
-        <meshStandardMaterial color="#0ea5e9" opacity={0.6} transparent roughness={0} metalness={0.8} />
+        <meshStandardMaterial color={COLOR_GLASS} opacity={0.5} transparent roughness={0.1} metalness={0.5} />
       </mesh>
       
       {/* Windows Upper */}
       <mesh position={[0, 1.3, 0.56]}>
         <boxGeometry args={[2.3, 0.4, 0.01]} />
-        <meshStandardMaterial color="#0ea5e9" opacity={0.6} transparent roughness={0} metalness={0.8} />
+        <meshStandardMaterial color={COLOR_GLASS} opacity={0.5} transparent roughness={0.1} metalness={0.5} />
       </mesh>
 
       {/* Logo Sign on Roof */}
       <mesh position={[-0.8, 1.8, 0]}>
         <boxGeometry args={[1.2, 0.3, 0.1]} />
-        <meshStandardMaterial color="#0f766e" />
+        <meshStandardMaterial color={COLOR_MAIN} />
       </mesh>
-      <Text position={[-0.8, 1.8, 0.06]} fontSize={0.15} color="white" anchorX="center" anchorY="middle">
+      <Text position={[-0.8, 1.8, 0.06]} fontSize={0.15} color={COLOR_TEXT} anchorX="center" anchorY="middle">
         ADWYA أدوية
       </Text>
 
-      {/* Entrance Gate */}
-      <mesh position={[0, 0.2, 2.5]}>
-        <boxGeometry args={[1.5, 0.4, 0.2]} />
-        <meshStandardMaterial color="#475569" />
-      </mesh>
-
       {/* Ground/Pavement */}
       <mesh position={[0, -0.05, 1.5]}>
-        <boxGeometry args={[7, 0.1, 4]} />
-        <meshStandardMaterial color="#e2e8f0" roughness={0.9} />
+        <boxGeometry args={[8, 0.1, 5]} />
+        <meshStandardMaterial color={COLOR_SECONDARY} roughness={0.9} />
       </mesh>
 
       {/* Palm Trees */}
@@ -123,26 +99,24 @@ function AdwyaBuilding() {
       <PalmTree position={[1.5, 0, 1.5]} />
       <PalmTree position={[-2.5, 0, 1.2]} />
       <PalmTree position={[2.5, 0, 1.2]} />
-
-      {/* Stop Sign at Gate */}
-      <StopSign position={[0.5, 0, 2.7]} />
     </group>
   );
 }
 
 export default function Building3D() {
   return (
-    <div className="w-full h-[400px] rounded-xl overflow-hidden shadow-lg border border-slate-200" style={{ background: 'linear-gradient(to bottom, #e0f2fe, #f8fafc)' }}>
-      <Canvas camera={{ position: [5, 4, 7], fov: 40 }}>
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} />
-        <Float speed={2} rotationIntensity={0.2} floatIntensity={0.2}>
+    <div className="absolute inset-0 w-full h-full z-0">
+      <Canvas camera={{ position: [6, 3, 8], fov: 40 }}>
+        <color attach="background" args={['#ffffff']} />
+        <ambientLight intensity={0.6} />
+        <directionalLight position={[10, 10, 5]} intensity={1} castShadow color="#ffffff" />
+        <pointLight position={[-10, -10, -10]} intensity={0.3} color="#f8fafc" />
+        <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.1}>
           <AdwyaBuilding />
         </Float>
-        <ContactShadows position={[0, -0.1, 0]} opacity={0.4} scale={10} blur={2} far={4} />
-        <Environment preset="city" />
-        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} maxPolarAngle={Math.PI / 2.1} minPolarAngle={Math.PI / 3} />
+        <ContactShadows position={[0, -0.1, 0]} opacity={0.2} scale={15} blur={2.5} far={4} />
+        <Environment preset="city" environmentIntensity={0.5} />
+        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.3} maxPolarAngle={Math.PI / 2.1} minPolarAngle={Math.PI / 3} />
       </Canvas>
     </div>
   );

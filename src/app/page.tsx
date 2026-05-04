@@ -20,7 +20,6 @@ import {
 import { Doughnut, Bar } from 'react-chartjs-2';
 import { INGREDIENTS, FORMULATIONS, ACTIVITIES } from '@/lib/data';
 import { getMedicationStats } from '@/lib/medications';
-import Building3D from '@/components/Building3D';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
 
@@ -142,11 +141,6 @@ export default function DashboardPage() {
       <div className="page-header">
         <h1 className="page-title">Tableau de bord</h1>
         <p className="page-subtitle">Vue d&apos;ensemble de la plateforme pharmaceutique ADWYA</p>
-      </div>
-
-      {/* Interactive 3D Headquarters */}
-      <div style={{ marginBottom: 'var(--space-xl)' }}>
-        <Building3D />
       </div>
 
       {/* KPI Cards */}
