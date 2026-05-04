@@ -247,21 +247,51 @@ function ExpandedDetail({ med, suppliers }: { med: GroupedMed; suppliers: any[] 
           {/* Molecule viewer via Ketcher */}
           {med.smiles ? (
             <div style={{ marginTop: 'var(--space-sm)' }}>
-              <div style={{ fontSize: 10, color: 'var(--text-tertiary)', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>Structure moleculaire</div>
-              <div style={{ height: 200, borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--border-primary)', background: '#fff' }}>
+              <div style={{ fontSize: 10, color: 'var(--text-tertiary)', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span>Structure moleculaire</span>
+                <button 
+                  onClick={() => {
+                    const iframe = document.getElementById(`ketcher-${med.id}`) as HTMLIFrameElement;
+                    if (iframe && iframe.contentWindow) {
+                      const kw = iframe.contentWindow as any;
+                      // Toggle 3D mode if Miew is available, otherwise re-layout
+                      if (kw.ketcher && kw.ketcher.editor) {
+                        // Some ketcher versions support miew() directly
+                        try { kw.ketcher.editor.miew(); } catch { alert('Vue 3D non disponible dans cette version.'); }
+                      }
+                    }
+                  }}
+                  style={{ fontSize: 9, padding: '2px 6px', background: 'var(--bg-primary)', border: '1px solid var(--border-primary)', borderRadius: 4, cursor: 'pointer', color: 'var(--text-secondary)' }}>
+                  Vue 3D
+                </button>
+              </div>
+              <div style={{ height: 200, borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--border-primary)', background: '#fff', position: 'relative' }}>
                 <iframe
-                  src={`/ketcher/standalone/index.html`}
+                  id={`ketcher-${med.id}`}
+                  src={`/ketcher/standalone/index.html?hiddenControls=clear,open,save,undo,redo,cut,copy,paste,zoomIn,zoomOut,layout,clean,aromatize,dearomatize,calculate,check,recognize,miew,settings,help,about,select,erase,bondSingle,bondDouble,bondTriple,chain,chargePlus,chargeMinus,transformFlipH,transformFlipV,template,sgroup,sgroupData,reactionArrow,reactionPlus,reactionMap,reactionUnmap`}
                   width="100%" height="100%"
-                  style={{ border: 'none', pointerEvents: 'none' }}
+                  style={{ border: 'none' }}
                   title={`Structure ${med.nom_commercial}`}
                   onLoad={(e) => {
                     const iframe = e.currentTarget;
-                    // Wait for Ketcher to load then set molecule
                     const trySet = () => {
                       try {
                         const ketcherFrame = iframe.contentWindow as any;
                         if (ketcherFrame?.ketcher) {
-                          ketcherFrame.ketcher.setMolecule(med.smiles!);
+                          ketcherFrame.ketcher.setMolecule(med.smiles!).then(() => {
+                            // Center and scale to fit
+                            ketcherFrame.ketcher.editor.zoom(1.5);
+                          });
+                          // Inject CSS to hide all extraneous UI and restrict canvas
+                          const doc = iframe.contentDocument;
+                          if (doc) {
+                            const style = doc.createElement('style');
+                            style.textContent = `
+                              header, [class*="Toolbar"], [class*="Header"], [class*="Menu"] { display: none !important; }
+                              body { background: transparent !important; }
+                            `;
+                            doc.head.appendChild(style);
+                          }
                         } else {
                           setTimeout(trySet, 500);
                         }
@@ -283,7 +313,7 @@ function ExpandedDetail({ med, suppliers }: { med: GroupedMed; suppliers: any[] 
         {/* Right: Suppliers */}
         <div>
           <div style={{ fontSize: 10, color: 'var(--text-tertiary)', textTransform: 'uppercase', fontWeight: 600, marginBottom: 8 }}>
-            Fournisseurs reels ({suppliers.length})
+            Fournisseurs ({suppliers.length})
           </div>
           {suppliers.length > 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>

@@ -8,6 +8,17 @@ ADWYA PharmaTech Hub is an integrative DeepTech platform designed for bio-engine
 
 To transition from merely storing information to actively predicting and securing the lifecycle of drug development and supply under constraints, while providing complete pharmaceutical portfolio visibility and documentation.
 
+## Current Milestone: v5.0 Real Data Integration
+
+**Goal:** Ensure absolute 100% real data coverage for SMILES structures and supplier live availability, while refining the UX of molecule viewers and provider maps.
+
+**Target features:**
+- Complete SMILES mapping for all 45 medications (no missing structures).
+- Constrained SMILES viewer: no tools, bounded panning, subtle 3D toggle.
+- Live provider saturation/availability and contact details.
+- Provider logos and geographic map visualization in the provider view.
+- Strict enforcement of real data with implicit labeling (remove "réel" tags).
+
 ## Completed Milestones
 
 ### v1.0 -- Platform Foundation
@@ -95,4 +106,4 @@ To transition from merely storing information to actively predicting and securin
 | Remove /formulations | Redundant with medications page | Done v4.0 |
 
 ---
-*Last updated: 2026-05-04 -- Milestone v4.0 completed*
+*Last updated: 2026-05-04 -- Milestone v5.0 started*

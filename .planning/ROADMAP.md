@@ -1,45 +1,20 @@
-# Roadmap -- ADWYA PharmaTech Hub
+# Milestone v5.0 Roadmap
 
-## Completed Milestones
+## 1. SMILES Data Completion & Viewer Overhaul
+**Goal:** Guarantee 100% SMILES coverage for medications and refine the molecule widget to be a restricted viewer rather than an editor.
+**Requirements:** MED-01, MED-02, MED-03, MED-04, GLO-01
+**Success Criteria:**
+1. All 45 medications render a SMILES structure without errors.
+2. Molecule widget has no toolbars or editing capabilities.
+3. Molecule panning is bounded (cannot be dragged off-screen).
+4. A subtle 3D button toggles the 2D molecule into a 3D visualization.
 
-### v1.0 -- Platform Foundation (Phases 1-5)
-| # | Phase | Status |
-|---|-------|--------|
-| 1 | Project Setup & Architecture | Done |
-| 2 | Data Models & Supabase Schema | Done |
-| 3 | Dashboard & Core UI | Done |
-| 4 | Molecule Builder & AI Scoring | Done |
-| 5 | Supply Chain & Compliance | Done |
-
-### v2.0 -- Live Molecular Intelligence (Phases 6-9)
-| # | Phase | Status |
-|---|-------|--------|
-| 6 | Deep Ketcher API Integration | Done |
-| 7 | Live AI Analysis & Visual Annotation | Done |
-| 8 | Supplier Intelligence & Map | Done |
-| 9 | Data Integrity & Production Hardening | Done |
-
-### v3.0 -- Platform Enrichment & ADWYA Data (Phases 10-12)
-| # | Phase | Status |
-|---|-------|--------|
-| 10 | UX Fixes (map visibility, scroll isolation) | Done |
-| 11 | Medications Database (45 products, CSV, dashboard) | Done |
-| 12 | Wiki ADWYA (6 sections, 20 articles, search) | Done |
-
-## Next Milestones (Proposed)
-
-### v4.0 -- Production Readiness
-- Authentication & RBAC (admin, scientist, viewer)
-- Supabase Auth integration
-- Response caching with configurable TTL
-- Error handling when external APIs are down
-- Automated test suite
-- Production deployment (Vercel + Supabase Cloud)
-
-### v5.0 -- Advanced Intelligence
-- Synthesis pathway planning
-- Drug-drug interaction checking
-- Batch analysis mode
-- PDF report generation
-- 3D molecular visualization (Three.js / 3Dmol)
-- Onboarding flow with 3D building model
+## 2. Supplier Intelligence Expansion
+**Goal:** Enhance the Fournisseurs page with deep live data, maps, and brand identity while removing explicit "real data" labeling.
+**Requirements:** FOU-01, FOU-02, FOU-03, FOU-04, FOU-05, FOU-06, GLO-01
+**Success Criteria:**
+1. Providers show saturation/availability percentages and real contact info.
+2. Providers display company logos.
+3. Explicit "Fournisseurs réel" badges/text are removed globally.
+4. An interactive geographic map renders the provider's exact location, matching the molecule widget aesthetic.
+5. Displays accurate molecule availability tied to the specific supplier.

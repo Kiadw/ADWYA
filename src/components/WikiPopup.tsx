@@ -242,7 +242,7 @@ export default function WikiPopup({ isOpen, onClose }: WikiPopupProps) {
       <div onClick={onClose} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,.4)', backdropFilter: 'blur(4px)' }} />
 
       {/* Panel */}
-      <div style={{ position: 'relative', width: '85vw', maxWidth: 1100, height: '80vh', background: 'var(--bg-primary)', borderRadius: 'var(--radius-lg)', boxShadow: '0 20px 60px rgba(0,0,0,.2)', display: 'flex', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', inset: 0, width: '100vw', height: '100vh', background: 'var(--bg-primary)', display: 'flex', overflow: 'hidden' }}>
         {/* Close button */}
         <button onClick={onClose} style={{ position: 'absolute', top: 12, right: 12, zIndex: 10, width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border-primary)', background: 'var(--bg-primary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
           <X size={16} />
