@@ -1,31 +1,29 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 
 export default function MoleculeBuilderPage() {
     const [scoringResult, setScoringResult] = useState<any>(null);
     const [loading, setLoading] = useState(false);
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
-    useEffect(() => {
-        const handleMessage = (event: MessageEvent) => {
-            if (event.data && event.data.type === 'SMILES_RESULT') {
-                runScoring(event.data.smiles);
+    const handleTestFormulation = async () => {
+        let smiles = 'ketcher_data_mock';
+        
+        try {
+            // Because Ketcher is hosted locally (same-origin), we can access its window object directly!
+            const ketcherWindow = iframeRef.current?.contentWindow as any;
+            if (ketcherWindow && ketcherWindow.ketcher) {
+                smiles = await ketcherWindow.ketcher.getSmiles();
+                if (!smiles) {
+                    alert('Veuillez dessiner une molécule d\'abord.');
+                    return;
+                }
             }
-        };
-        window.addEventListener('message', handleMessage);
-        return () => window.removeEventListener('message', handleMessage);
-    }, []);
-
-    const handleTestFormulation = () => {
-        if (iframeRef.current && iframeRef.current.contentWindow) {
-            iframeRef.current.contentWindow.postMessage({ type: 'GET_SMILES' }, '*');
-        } else {
-            runScoring('ketcher_data_mock'); // fallback
+        } catch (e) {
+            console.error('Failed to get SMILES from Ketcher', e);
         }
-    };
 
-    const runScoring = async (smiles: string) => {
         setLoading(true);
         try {
             const response = await fetch('https://pzgslazhagijlnrxkihc.supabase.co/functions/v1/ai-scoring', {
@@ -49,8 +47,8 @@ export default function MoleculeBuilderPage() {
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-md)' }}>
                     <div>
-                        <h1 style={{ fontSize: 'var(--font-xl)', color: 'var(--text-primary)', fontWeight: '600' }}>Éditeur de Molécules (JSME)</h1>
-                        <p style={{ color: 'var(--text-secondary)' }}>Dessinez vos structures 2D. Outil propulsé par JSME Editor.</p>
+                        <h1 style={{ fontSize: 'var(--font-xl)', color: 'var(--text-primary)', fontWeight: '600' }}>Éditeur de Molécules (Ketcher V3)</h1>
+                        <p style={{ color: 'var(--text-secondary)' }}>Interface moderne propulsée par EPAM Ketcher Standalone. Dessinez en 2D, exportez en SMILES.</p>
                     </div>
                     <div>
                         <button className="btn btn-primary" onClick={handleTestFormulation} disabled={loading}>
@@ -70,11 +68,11 @@ export default function MoleculeBuilderPage() {
                 }}>
                     <iframe 
                         ref={iframeRef}
-                        src="/jsme.html" 
+                        src="/ketcher/standalone/index.html" 
                         width="100%" 
                         height="100%" 
                         style={{ border: 'none' }}
-                        title="JSME Molecule Builder"
+                        title="Ketcher Standalone"
                     />
                 </div>
             </div>
