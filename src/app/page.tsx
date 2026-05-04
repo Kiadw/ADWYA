@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   FlaskConical,
   Pill,
@@ -116,6 +116,24 @@ const KPI_DATA = [
 ];
 
 export default function DashboardPage() {
+  const [supplyAlerts, setSupplyAlerts] = useState<any[]>([]);
+  const [loadingAlerts, setLoadingAlerts] = useState(true);
+
+  useEffect(() => {
+    const fetchAlerts = async () => {
+      try {
+        const res = await fetch('https://pzgslazhagijlnrxkihc.supabase.co/functions/v1/supply-chain-proxy');
+        const data = await res.json();
+        if (data.alerts) setSupplyAlerts(data.alerts);
+      } catch (err) {
+        console.error('Failed to fetch supply alerts', err);
+      } finally {
+        setLoadingAlerts(false);
+      }
+    };
+    fetchAlerts();
+  }, []);
+
   return (
     <>
       <div className="page-header">
@@ -212,6 +230,47 @@ export default function DashboardPage() {
               );
             })}
           </div>
+        </div>
+        </div>
+      </div>
+
+      {/* Supply Chain Live Alerts */}
+      <div className="card" style={{ marginTop: 'var(--space-xl)' }}>
+        <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span className="card-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--error-color, #ef4444)', display: 'inline-block', animation: 'pulse 2s infinite' }} />
+            Alertes Supply Chain (Live API)
+          </span>
+          <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Mise à jour en temps réel</span>
+        </div>
+        <div style={{ padding: 'var(--space-md) 0' }}>
+          {loadingAlerts ? (
+            <div style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-sm)', padding: 'var(--space-md)' }}>Synchronisation des bases FDA & EMA...</div>
+          ) : supplyAlerts.length > 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+              {supplyAlerts.map((alert, idx) => (
+                <div key={idx} style={{ 
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center', 
+                  padding: 'var(--space-md)', background: 'var(--bg-secondary)', 
+                  borderRadius: 'var(--radius-md)', borderLeft: `4px solid ${alert.risk === 'Critical' ? '#ef4444' : alert.risk === 'Moderate' ? '#f59e0b' : '#10b981'}`
+                }}>
+                  <div>
+                    <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{alert.ingredient}</div>
+                    <div style={{ fontSize: 'var(--font-sm)', color: 'var(--text-secondary)' }}>{alert.signal} ({alert.location})</div>
+                  </div>
+                  <div style={{ 
+                    padding: '4px 12px', borderRadius: '20px', fontSize: 'var(--font-xs)', fontWeight: 600,
+                    background: alert.risk === 'Critical' ? 'rgba(239, 68, 68, 0.1)' : alert.risk === 'Moderate' ? 'rgba(245, 158, 11, 0.1)' : 'rgba(16, 185, 129, 0.1)',
+                    color: alert.risk === 'Critical' ? '#ef4444' : alert.risk === 'Moderate' ? '#f59e0b' : '#10b981'
+                  }}>
+                    {alert.risk}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-sm)' }}>Aucune alerte pour le moment.</div>
+          )}
         </div>
       </div>
     </>
