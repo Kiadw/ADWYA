@@ -34,7 +34,7 @@
   inset: 0;
   background: radial-gradient(
     600px circle at var(--mouse-x) var(--mouse-y),
-    rgba(96, 178, 70, 0.07),
+    rgba(96, 178, 70, 0.15),
     transparent 40%
   );
   z-index: 2;
@@ -61,25 +61,24 @@
   opacity: 0;
 }
 
-.smilesString {
-  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--accent-primary);
-  opacity: 0.2;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
+.moleculeImage {
+  width: 120px;
+  height: auto;
+  opacity: 0.15;
+  filter: grayscale(100%) contrast(1.2);
   transition: opacity 0.5s ease;
+  mix-blend-mode: multiply;
 }
 
 .smilesLabel {
   font-family: var(--font-family);
-  font-size: 9px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 700;
   color: var(--text-tertiary);
-  opacity: 0.35;
+  opacity: 0.4;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
+  text-align: center;
 }
 
 /* Position each SMILES string across the left 65% of the screen */
@@ -114,24 +113,10 @@
   pointer-events: none;
 }
 
-.brandName {
-  font-size: var(--font-3xl);
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.5px;
-  margin: 0;
-}
-
-.brandSub {
-  font-size: var(--font-xs);
-  font-weight: 700;
-  color: var(--accent-primary);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin: -2px 0 0 1px;
+.logoImg {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
 }
 
 /* =========================================
@@ -192,7 +177,7 @@
   inset: 0;
   background: radial-gradient(
     280px circle at var(--glow-x) var(--glow-y),
-    rgba(96, 178, 70, 0.06),
+    rgba(96, 178, 70, 0.15),
     transparent 60%
   );
   opacity: var(--glow-opacity);

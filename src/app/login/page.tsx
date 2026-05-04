@@ -5,18 +5,18 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import styles from './login.module.css';
 
-/** Real SMILES from ADWYA medications database */
-const FLOATING_SMILES = [
-  { name: 'Losartan', smiles: 'CCCC1=NC(=C(N1CC2=CC=C(C=C2)C3=CC=CC=C3C4=NN=N[NH]4)CO)Cl' },
-  { name: 'Paracetamol', smiles: 'CC(=O)NC1=CC=C(C=C1)O' },
-  { name: 'Metformine', smiles: 'CN(C)C(=N)NC(=N)N' },
-  { name: 'Amoxicilline', smiles: 'CC1(C(N2C(S1)C(C2=O)NC(=O)C(C3=CC=C(C=C3)O)N)C(=O)O)C' },
-  { name: 'Fluoxetine', smiles: 'CNCCC(C1=CC=CC=C1)OC2=CC=C(C=C2)C(F)(F)F' },
-  { name: 'Ibuprofene', smiles: 'CC(C)CC1=CC=C(C=C1)C(C)C(=O)O' },
-  { name: 'Omeprazole', smiles: 'CC1=CN=C(C(=C1OC)C)CS(=O)C2=NC3=CC=CC=C3N2' },
-  { name: 'Amlodipine', smiles: 'CCOC(=O)C1=C(NC(=C(C1C2=CC=CC=C2Cl)C(=O)OC)C)COCCN' },
-  { name: 'Enalapril', smiles: 'CCOC(=O)C(CCC1=CC=CC=C1)NC(C)C(=O)N1CCCC1C(=O)O' },
-  { name: 'Atorvastatine', smiles: 'CC(C)C1=C(C(=CC=C1)C2=CC=CC=C2)N3C=C(C(C3=O)O)CC(CC(=O)O)O' },
+/** Real molecules from ADWYA medications database */
+const FLOATING_MOLECULES = [
+  { name: 'Losartan', query: 'Losartan', smiles: 'CCCC1=NC(=C(N1CC2=CC=C(C=C2)C3=CC=CC=C3C4=NN=N[NH]4)CO)Cl' },
+  { name: 'Paracetamol', query: 'Paracetamol', smiles: 'CC(=O)NC1=CC=C(C=C1)O' },
+  { name: 'Metformine', query: 'Metformin', smiles: 'CN(C)C(=N)NC(=N)N' },
+  { name: 'Amoxicilline', query: 'Amoxicillin', smiles: 'CC1(C(N2C(S1)C(C2=O)NC(=O)C(C3=CC=C(C=C3)O)N)C(=O)O)C' },
+  { name: 'Fluoxetine', query: 'Fluoxetine', smiles: 'CNCCC(C1=CC=CC=C1)OC2=CC=C(C=C2)C(F)(F)F' },
+  { name: 'Ibuprofene', query: 'Ibuprofen', smiles: 'CC(C)CC1=CC=C(C=C1)C(C)C(=O)O' },
+  { name: 'Omeprazole', query: 'Omeprazole', smiles: 'CC1=CN=C(C(=C1OC)C)CS(=O)C2=NC3=CC=CC=C3N2' },
+  { name: 'Amlodipine', query: 'Amlodipine', smiles: 'CCOC(=O)C1=C(NC(=C(C1C2=CC=CC=C2Cl)C(=O)OC)C)COCCN' },
+  { name: 'Enalapril', query: 'Enalapril', smiles: 'CCOC(=O)C(CCC1=CC=CC=C1)NC(C)C(=O)N1CCCC1C(=O)O' },
+  { name: 'Atorvastatine', query: 'Atorvastatin', smiles: 'CC(C)C1=C(C(=CC=C1)C2=CC=CC=C2)N3C=C(C(C3=O)O)CC(CC(=O)O)O' },
 ];
 
 export default function LoginPage() {
@@ -45,15 +45,15 @@ export default function LoginPage() {
       const dy = (e.clientY - cy) / formRect.height;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      if (dist < 1.5) {
-        const tiltX = dy * -3;
-        const tiltY = dx * 3;
-        formRef.current.style.transform = `perspective(1200px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+      if (dist < 1.8) {
+        const tiltX = dy * -4;
+        const tiltY = dx * 4;
+        formRef.current.style.transform = `perspective(1200px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
         formRef.current.style.setProperty('--glow-x', `${(dx + 0.5) * 100}%`);
         formRef.current.style.setProperty('--glow-y', `${(dy + 0.5) * 100}%`);
-        formRef.current.style.setProperty('--glow-opacity', `${Math.max(0, 0.6 - dist * 0.4)}`);
+        formRef.current.style.setProperty('--glow-opacity', `${Math.max(0, 0.8 - dist * 0.4)}`);
       } else {
-        formRef.current.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+        formRef.current.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)';
         formRef.current.style.setProperty('--glow-opacity', '0');
       }
     }
@@ -61,7 +61,7 @@ export default function LoginPage() {
 
   const handleMouseLeave = useCallback(() => {
     if (formRef.current) {
-      formRef.current.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+      formRef.current.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)';
       formRef.current.style.setProperty('--glow-opacity', '0');
     }
   }, []);
@@ -93,11 +93,15 @@ export default function LoginPage() {
         <div className={styles.gridGlow} />
       </div>
 
-      {/* Floating SMILES strings */}
+      {/* Floating Drawn Molecules */}
       <div className={styles.smilesLayer}>
-        {FLOATING_SMILES.map((mol, i) => (
+        {FLOATING_MOLECULES.map((mol, i) => (
           <div key={mol.name} className={styles.smilesItem} style={{ animationDelay: `${i * 2.1}s` }}>
-            <span className={styles.smilesString}>{mol.smiles}</span>
+            <img 
+              src={`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${mol.query}/PNG?record_type=2d&image_size=300x300`} 
+              alt={mol.name}
+              className={styles.moleculeImage}
+            />
             <span className={styles.smilesLabel}>{mol.name}</span>
           </div>
         ))}
@@ -105,8 +109,7 @@ export default function LoginPage() {
 
       {/* Brand top-left */}
       <div className={styles.brandTop}>
-        <h2 className={styles.brandName}>ADWYA</h2>
-        <p className={styles.brandSub}>PharmaTech Hub</p>
+        <img src="/logo-adwya.png" alt="ADWYA Logo" className={styles.logoImg} />
       </div>
 
       <div className={styles.footerText}>
