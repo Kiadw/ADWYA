@@ -76,24 +76,24 @@ Le schéma ci-dessous détaille le flux des données depuis le navigateur du bio
 ```mermaid
 graph TD
     subgraph Frontend [Frontend - Next.js]
-        A[Interface Utilisateur ADWYA]
-        B[AuthGuard & Supabase Auth]
-        C[Rendu Canvas 2D/3D <br> smiles-drawer / Ketcher]
-        D[Dashboard Dynamique]
+        A["Interface Utilisateur ADWYA"]
+        B["AuthGuard & Supabase Auth"]
+        C["Rendu Canvas 2D/3D <br> smiles-drawer / Ketcher"]
+        D["Dashboard Dynamique"]
     end
 
     subgraph BackendaaS [Supabase - Données & Sécurité]
-        E[(PostgreSQL DB)]
-        F[Gestion des Sessions JWT]
-        G[Edge Functions & Triggers]
+        E[("PostgreSQL DB")]
+        F["Gestion des Sessions JWT"]
+        G["Edge Functions & Triggers"]
     end
 
     subgraph AIBackend [Backend IA & Web Scraping - Python / AWS]
-        H[API Gateway / FastAPI]
-        I[Message Broker <br> Celery / Redis]
-        J[Modèles GNN <br> Propriétés Moléculaires]
-        K[NLP / LLMs <br> Classification Médicale]
-        L[Workers Selenium <br> Scraping Fournisseurs]
+        H["API Gateway / FastAPI"]
+        I["Message Broker <br> Celery / Redis"]
+        J["Modèles GNN <br> Propriétés Moléculaires"]
+        K["NLP / LLMs <br> Classification Médicale"]
+        L["Workers Selenium <br> Scraping Fournisseurs"]
     end
 
     %% Connexions Frontend -> Backend
