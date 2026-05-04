@@ -2,8 +2,10 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { supabase } from '@/lib/supabase';
+import WikiPopup from './WikiPopup';
 import {
     LayoutDashboard,
     FlaskConical,
@@ -16,6 +18,9 @@ import {
     X,
     ChevronRight,
     ChevronLeft,
+    LogOut,
+    Truck,
+    BookOpen,
 } from 'lucide-react';
 
 const NAV_SECTIONS = [
@@ -24,8 +29,8 @@ const NAV_SECTIONS = [
         links: [
             { href: '/', label: 'Dashboard', icon: LayoutDashboard, id: 'nav-dashboard' },
             { href: '/ingredients', label: 'Ingredients', icon: FlaskConical, badge: '45', id: 'nav-ingredients' },
-            { href: '/formulations', label: 'Formulations', icon: Pill, id: 'nav-formulations' },
             { href: '/medicaments', label: 'Medicaments', icon: Pill, id: 'nav-medicaments' },
+            { href: '/fournisseurs', label: 'Fournisseurs', icon: Truck, id: 'nav-fournisseurs' },
         ],
     },
     {
@@ -39,12 +44,6 @@ const NAV_SECTIONS = [
         title: 'Analyse',
         links: [
             { href: '/reports', label: 'Rapports', icon: FileBarChart, id: 'nav-reports' },
-        ],
-    },
-    {
-        title: 'Documentation',
-        links: [
-            { href: '/wiki', label: 'Wiki ADWYA', icon: Compass, id: 'nav-wiki' },
         ],
     },
 ];
@@ -61,9 +60,14 @@ const TOUR_STEPS = [
         desc: 'Consultez et recherchez parmi 45 ingredients pharmaceutiques. Filtrez par categorie, niveau de risque, et exportez les donnees en CSV.',
     },
     {
-        targetId: 'nav-formulations',
-        title: 'Formulations',
-        desc: 'Explorez les formulations pharmaceutiques avec leur composition detaillee, les dosages et les roles de chaque ingredient.',
+        targetId: 'nav-medicaments',
+        title: 'Medicaments ADWYA',
+        desc: '45 produits pharmaceutiques regroupes par nom commercial avec structure moleculaire, dosages multiples et fournisseurs reels.',
+    },
+    {
+        targetId: 'nav-fournisseurs',
+        title: 'Fournisseurs',
+        desc: '14 fournisseurs reels d\'ADWYA dans 6 pays, avec certifications, molecules fournies et sources de donnees verifiables.',
     },
     {
         targetId: 'nav-classification',
@@ -79,10 +83,12 @@ const TOUR_STEPS = [
 
 export default function Sidebar() {
     const pathname = usePathname();
+    const router = useRouter();
     const [tourActive, setTourActive] = useState(false);
     const [tourStep, setTourStep] = useState(0);
     const [tooltipPos, setTooltipPos] = useState({ top: 0, left: 0 });
     const [spotlightPos, setSpotlightPos] = useState({ top: 0, left: 0, width: 0, height: 0 });
+    const [wikiOpen, setWikiOpen] = useState(false);
 
     const positionTooltip = useCallback((step: number) => {
         const el = document.getElementById(TOUR_STEPS[step].targetId);
@@ -121,6 +127,11 @@ export default function Sidebar() {
 
     const prevStep = () => {
         if (tourStep > 0) setTourStep(s => s - 1);
+    };
+
+    const handleSignOut = async () => {
+        await supabase.auth.signOut();
+        router.push('/login');
     };
 
     return (
@@ -165,6 +176,16 @@ export default function Sidebar() {
                 </nav>
 
                 <div style={{ padding: 'var(--space-lg)', borderTop: '1px solid var(--border-primary)' }}>
+                    {/* Wiki button */}
+                    <div
+                        className="sidebar-link"
+                        style={{ cursor: 'pointer', marginBottom: 'var(--space-xs)' }}
+                        onClick={() => setWikiOpen(true)}
+                    >
+                        <BookOpen size={20} className="sidebar-link-icon" />
+                        <span>Wiki ADWYA</span>
+                    </div>
+
                     {/* Guided Tour button */}
                     <div
                         className="sidebar-link"
@@ -179,6 +200,15 @@ export default function Sidebar() {
                         <Settings size={20} className="sidebar-link-icon" />
                         <span>Parametres</span>
                     </Link>
+
+                    <button 
+                        onClick={handleSignOut} 
+                        className="sidebar-link w-full text-left bg-transparent border-none"
+                        style={{ color: 'var(--error-color, #ef4444)', cursor: 'pointer', marginTop: 'var(--space-xs)' }}
+                    >
+                        <LogOut size={20} className="sidebar-link-icon" />
+                        <span>Se deconnecter</span>
+                    </button>
 
                     <div style={{
                         display: 'flex', alignItems: 'center', gap: 'var(--space-md)',
@@ -236,6 +266,8 @@ export default function Sidebar() {
                     </div>
                 </>
             )}
+
+            <WikiPopup isOpen={wikiOpen} onClose={() => setWikiOpen(false)} />
         </>
     );
 }

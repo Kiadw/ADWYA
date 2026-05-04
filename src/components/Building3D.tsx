@@ -105,7 +105,7 @@ function AdwyaBuilding() {
 
 export default function Building3D() {
   return (
-    <div className="absolute inset-0 w-full h-full z-0">
+    <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}>
       <Canvas camera={{ position: [6, 3, 8], fov: 40 }}>
         <color attach="background" args={['#ffffff']} />
         <ambientLight intensity={0.6} />

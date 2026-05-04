@@ -1,61 +1,121 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Building3D from '@/components/Building3D';
+import { supabase } from '@/lib/supabase';
+import styles from './login.module.css';
 
 export default function LoginPage() {
-  return (
-    <div className="relative w-full h-screen overflow-hidden bg-white">
-      {/* 3D Background */}
-      <Building3D />
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-      {/* Login Overlay */}
-      <div className="relative z-10 flex items-center justify-center w-full h-full pointer-events-none">
-        <div className="bg-white/80 backdrop-blur-md p-8 md:p-12 rounded-2xl shadow-2xl border border-white/50 w-full max-w-md pointer-events-auto mx-4">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-slate-800 mb-2">ADWYA</h1>
-            <p className="text-sm text-slate-500 font-medium">PharmaTech Hub</p>
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+    } else {
+      router.push('/');
+    }
+  };
+
+  return (
+    <div className={styles.loginContainer}>
+      {/* LEFT: 3D Model */}
+      <div className={styles.leftPane}>
+        <div className={styles.brandTop}>
+          <h2 className={styles.brandName}>ADWYA</h2>
+          <p className={styles.brandSub}>PharmaTech Hub</p>
+        </div>
+        
+        <div className={styles.modelWrapper}>
+          <Building3D />
+        </div>
+        
+        <div className={styles.footerText}>
+          <p>Plateforme sécurisée d&apos;analyse, structuration et classification des données pharmaceutiques.</p>
+        </div>
+      </div>
+
+      {/* RIGHT: Login Form with Grid Pattern */}
+      <div className={styles.rightPane}>
+        {/* Google Stitch-like Grid Background */}
+        <div className={styles.gridPattern} />
+
+        {/* Form Container */}
+        <div className={styles.formCard}>
+          <div className={styles.formHeader}>
+            <h1 className={styles.formTitle}>Connexion</h1>
+            <p className={styles.formSubtitle}>Accès sécurisé au réseau ADWYA</p>
           </div>
 
-          <form className="space-y-6">
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">
+          <form onSubmit={handleLogin}>
+            {error && (
+              <div className={styles.errorBox}>
+                {error}
+              </div>
+            )}
+            
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>
                 Adresse Email
               </label>
               <input 
                 type="email" 
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="nom@adwya.com.tn" 
-                className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400 bg-white/90 transition-all"
+                className={styles.formInput}
               />
             </div>
             
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>
                 Mot de passe
               </label>
               <input 
                 type="password" 
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••" 
-                className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400 bg-white/90 transition-all"
+                className={styles.formInput}
               />
             </div>
 
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" className="rounded border-slate-300 text-slate-800 focus:ring-slate-800" />
-                <span className="text-slate-600 font-medium">Se souvenir de moi</span>
+            <div className={styles.formOptions}>
+              <label className={styles.checkboxLabel}>
+                <input type="checkbox" />
+                <span>Se souvenir de moi</span>
               </label>
-              <a href="#" className="text-slate-500 hover:text-slate-800 font-medium transition-colors">
-                Mot de passe oublié ?
+              <a href="#" className={styles.link}>
+                Oublié ?
               </a>
             </div>
 
             <button 
-              type="button" 
-              className="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 shadow-md"
+              type="submit" 
+              disabled={loading}
+              className={styles.submitBtn}
             >
-              Se Connecter
+              {loading ? 'Connexion en cours...' : 'Se Connecter'}
             </button>
           </form>
 
-          <div className="mt-8 text-center text-xs text-slate-400 font-medium">
+          <div className={styles.addressFooter}>
             <p>Route de la Marsa, GP 9, Km 14</p>
             <p>2070 La Marsa, Tunis, Tunisie</p>
           </div>
