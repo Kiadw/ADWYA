@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JSME Molecule Editor</title>
+  <script type="text/javascript" src="https://jsme-editor.github.io/dist/jsme/jsme.nocache.js"></script>
+  <style>
+    body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: #fff; font-family: sans-serif; }
+    #jsme_container { width: 100%; height: 100%; }
+  </style>
+  <script>
+    function jsmeOnLoad() {
+      // Initialize JSME
+      document.jsmeApplet = new JSApplet.JSME("jsme_container", "100%", "100%", {
+        options: "oldlook,star,reaction,multipart"
+      });
+      // Optionally notify parent when loaded
+      window.parent.postMessage({ type: 'JSME_INIT' }, '*');
+    }
+    
+    // Listen for requests from parent
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'GET_SMILES') {
+        var smiles = document.jsmeApplet.smiles();
+        window.parent.postMessage({ type: 'SMILES_RESULT', smiles: smiles }, '*');
+      }
+    });
+  </script>
+</head>
+<body>
+  <div id="jsme_container"></div>
+</body>
+</html>
