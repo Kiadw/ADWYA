@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 import {
     Search,
     Bell,
@@ -41,6 +42,30 @@ export default function Header() {
     const searchRef = useRef<HTMLDivElement>(null);
     const notifRef = useRef<HTMLDivElement>(null);
     const profileRef = useRef<HTMLDivElement>(null);
+    const [user, setUser] = useState<any>(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) setUser(user);
+        };
+        fetchUser();
+    }, []);
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        router.push('/login');
+    };
+
+    const getInitials = (name?: string) => {
+        if (!name) return 'U';
+        return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    };
+
+    const userName = user?.user_metadata?.full_name || 'Utilisateur';
+    const userRole = user?.user_metadata?.role || 'Membre';
+    const userDept = user?.user_metadata?.department || 'Equipe ADWYA';
+    const initials = getInitials(userName);
 
     // Live search
     const handleSearch = (query: string) => {
@@ -184,7 +209,7 @@ export default function Header() {
                             className="header-avatar"
                             onClick={() => { setShowProfile(!showProfile); setShowNotifications(false); }}
                         >
-                            SB
+                            {initials}
                         </div>
 
                         {showProfile && (
@@ -196,11 +221,11 @@ export default function Header() {
                                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                                         fontWeight: 700, color: 'white', flexShrink: 0,
                                     }}>
-                                        SB
+                                        {initials}
                                     </div>
                                     <div>
-                                        <div style={{ fontWeight: 600, fontSize: 'var(--font-sm)' }}>Dr. Skander Benali</div>
-                                        <div style={{ fontSize: 'var(--font-xs)', color: 'var(--text-tertiary)' }}>Directeur R&D</div>
+                                        <div style={{ fontWeight: 600, fontSize: 'var(--font-sm)' }}>{userName}</div>
+                                        <div style={{ fontSize: 'var(--font-xs)', color: 'var(--text-tertiary)' }}>{userDept}</div>
                                     </div>
                                 </div>
                                 <div className="dropdown-item" onClick={() => { setShowProfile(false); router.push('/settings'); }}>
@@ -216,7 +241,7 @@ export default function Header() {
                                     <Moon size={16} /> Theme sombre
                                 </div>
                                 <div className="dropdown-divider" />
-                                <div className="dropdown-item" style={{ color: 'var(--accent-rose)' }}>
+                                <div className="dropdown-item" style={{ color: 'var(--accent-rose)' }} onClick={handleLogout}>
                                     <LogOut size={16} /> Deconnexion
                                 </div>
                             </div>

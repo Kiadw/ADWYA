@@ -251,7 +251,7 @@ function ExpandedDetail({ med, suppliers }: { med: GroupedMed; suppliers: any[] 
                 <span>Structure moleculaire</span>
                 <button 
                   onClick={() => {
-                    const iframe = document.getElementById(`ketcher-${med.id}`) as HTMLIFrameElement;
+                    const iframe = document.getElementById(`ketcher-${med.ids[0]}`) as HTMLIFrameElement;
                     if (iframe && iframe.contentWindow) {
                       const kw = iframe.contentWindow as any;
                       // Toggle 3D mode if Miew is available, otherwise re-layout
@@ -267,7 +267,7 @@ function ExpandedDetail({ med, suppliers }: { med: GroupedMed; suppliers: any[] 
               </div>
               <div style={{ height: 200, borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--border-primary)', background: '#fff', position: 'relative' }}>
                 <iframe
-                  id={`ketcher-${med.id}`}
+                  id={`ketcher-${med.ids[0]}`}
                   src={`/ketcher/standalone/index.html?hiddenControls=clear,open,save,undo,redo,cut,copy,paste,zoomIn,zoomOut,layout,clean,aromatize,dearomatize,calculate,check,recognize,miew,settings,help,about,select,erase,bondSingle,bondDouble,bondTriple,chain,chargePlus,chargeMinus,transformFlipH,transformFlipV,template,sgroup,sgroupData,reactionArrow,reactionPlus,reactionMap,reactionUnmap`}
                   width="100%" height="100%"
                   style={{ border: 'none' }}

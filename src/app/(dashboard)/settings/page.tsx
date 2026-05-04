@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 import {
     User,
     Shield,
@@ -30,11 +31,42 @@ const SECTIONS: SettingSection[] = [
 export default function SettingsPage() {
     const [activeSection, setActiveSection] = useState('profile');
     const [saved, setSaved] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    const handleSave = () => {
+    const [email, setEmail] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [department, setDepartment] = useState('');
+    const [role, setRole] = useState('scientist');
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                setEmail(user.email || '');
+                setFullName(user.user_metadata?.full_name || '');
+                setDepartment(user.user_metadata?.department || '');
+                setRole(user.user_metadata?.role || 'scientist');
+            }
+            setLoading(false);
+        };
+        fetchUser();
+    }, []);
+
+    const handleSave = async () => {
+        if (activeSection === 'profile') {
+            await supabase.auth.updateUser({
+                data: {
+                    full_name: fullName,
+                    department: department,
+                    role: role
+                }
+            });
+        }
         setSaved(true);
         setTimeout(() => setSaved(false), 2500);
     };
+
+    if (loading) return null;
 
     return (
         <>
@@ -74,25 +106,25 @@ export default function SettingsPage() {
                                     <label style={{ fontSize: 'var(--font-xs)', fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: 'var(--space-sm)' }}>
                                         Nom complet
                                     </label>
-                                    <input className="filter-input" defaultValue="Dr. Skander Benali" style={{ width: '100%' }} />
+                                    <input className="filter-input" value={fullName} onChange={e => setFullName(e.target.value)} style={{ width: '100%' }} />
                                 </div>
                                 <div>
                                     <label style={{ fontSize: 'var(--font-xs)', fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: 'var(--space-sm)' }}>
                                         Email
                                     </label>
-                                    <input className="filter-input" defaultValue="s.benali@adwya.com.tn" style={{ width: '100%' }} />
+                                    <input className="filter-input" value={email} readOnly style={{ width: '100%', opacity: 0.7, cursor: 'not-allowed' }} />
                                 </div>
                                 <div>
                                     <label style={{ fontSize: 'var(--font-xs)', fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: 'var(--space-sm)' }}>
                                         Departement
                                     </label>
-                                    <input className="filter-input" defaultValue="Recherche & Developpement" style={{ width: '100%' }} />
+                                    <input className="filter-input" value={department} onChange={e => setDepartment(e.target.value)} style={{ width: '100%' }} />
                                 </div>
                                 <div>
                                     <label style={{ fontSize: 'var(--font-xs)', fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: 'var(--space-sm)' }}>
                                         Role
                                     </label>
-                                    <select className="filter-select" defaultValue="admin" style={{ width: '100%' }}>
+                                    <select className="filter-select" value={role} onChange={e => setRole(e.target.value)} style={{ width: '100%' }}>
                                         <option value="admin">Administrateur</option>
                                         <option value="scientist">Scientifique</option>
                                         <option value="viewer">Consultant</option>

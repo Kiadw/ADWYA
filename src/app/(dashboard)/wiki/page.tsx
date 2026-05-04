@@ -372,7 +372,7 @@ function renderMarkdown(md: string): string {
       return '<tr>' + cells.map((c: string) => `<td>${c}</td>`).join('') + '</tr>';
     })
     .replace(/^- (.+)$/gm, '<li>$1</li>')
-    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+    .replace(/(<li>[\s\S]*<\/li>)/g, '<ul>$1</ul>')
     .replace(/<\/ul>\s*<ul>/g, '')
     .replace(/^(?!<[huplo])([\w].+)$/gm, '<p>$1</p>')
     .replace(/\n{2,}/g, '\n');

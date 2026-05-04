@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import SmilesDrawer from 'smiles-drawer';
 import styles from './login.module.css';
 
 /** Real molecules from ADWYA medications database */
@@ -59,6 +60,25 @@ export default function LoginPage() {
     }
   }, []);
 
+  useEffect(() => {
+    // Draw the molecules on canvas using SmilesDrawer v1
+    const drawer = new SmilesDrawer.Drawer({
+      width: 150,
+      height: 150,
+      compactDrawing: false,
+      transparent: true
+    });
+
+    FLOATING_MOLECULES.forEach((mol, i) => {
+      SmilesDrawer.parse(mol.smiles, (tree: any) => {
+        const canvas = document.getElementById(`mol-canvas-${i}`) as HTMLCanvasElement;
+        if (canvas) {
+          drawer.draw(tree, canvas, 'light', false);
+        }
+      });
+    });
+  }, []);
+
   const handleMouseLeave = useCallback(() => {
     if (formRef.current) {
       formRef.current.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)';
@@ -71,10 +91,22 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
 
     if (error) {
-      setError(error.message);
+      let errorMsg = error.message;
+      if (error.message.includes('Invalid login credentials')) {
+        errorMsg = 'Email ou mot de passe incorrect.';
+      } else if (error.message.includes('Email not confirmed')) {
+        errorMsg = 'Veuillez confirmer votre adresse email avant de vous connecter.';
+      } else if (error.message.includes('rate limit')) {
+        errorMsg = 'Trop de tentatives de connexion. Veuillez réessayer plus tard.';
+      } else if (error.message.includes('User not found')) {
+        errorMsg = 'Aucun compte associé à cette adresse email.';
+      } else if (error.message.includes('Invalid Grant')) {
+        errorMsg = 'Identifiants de connexion invalides.';
+      }
+      setError(errorMsg);
       setLoading(false);
     } else {
       router.push('/');
@@ -96,11 +128,12 @@ export default function LoginPage() {
       {/* Floating Drawn Molecules */}
       <div className={styles.smilesLayer}>
         {FLOATING_MOLECULES.map((mol, i) => (
-          <div key={mol.name} className={styles.smilesItem} style={{ animationDelay: `${i * 2.1}s` }}>
-            <img 
-              src={`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${mol.query}/PNG?record_type=2d&image_size=300x300`} 
-              alt={mol.name}
+          <div key={mol.name} className={styles.smilesItem} style={{ animationDelay: `-${i * 2.8}s` }}>
+            <canvas 
+              id={`mol-canvas-${i}`}
               className={styles.moleculeImage}
+              width={150}
+              height={150}
             />
             <span className={styles.smilesLabel}>{mol.name}</span>
           </div>
