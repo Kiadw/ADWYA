@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
+import { Map, ClipboardList } from 'lucide-react';
 import { onMoleculeChange, highlightAtoms, waitForKetcher } from '@/lib/ketcher-bridge';
 import AISidebar from '@/components/AISidebar';
 import SupplierTable from '@/components/SupplierTable';
@@ -190,10 +191,10 @@ export default function MoleculeBuilderPage() {
               {/* Tab bar */}
               <div style={{ display: 'flex', borderBottom: '1px solid var(--border-primary)' }}>
                 <TabBtn active={activeTab === 'map'} onClick={() => setActiveTab('map')}>
-                  🗺️ Carte Fournisseurs {supplyData ? `(${supplyData.suppliers.length})` : ''}
+                  <Map size={14} style={{ display: 'inline' }} /> Carte Fournisseurs {supplyData ? `(${supplyData.suppliers.length})` : ''}
                 </TabBtn>
                 <TabBtn active={activeTab === 'table'} onClick={() => setActiveTab('table')}>
-                  📋 Tableau Comparatif
+                  <ClipboardList size={14} style={{ display: 'inline' }} /> Tableau Comparatif
                 </TabBtn>
                 {supplyData?.risk_level && (
                   <div style={{ marginLeft: 'auto', padding: '8px 16px', display: 'flex', alignItems: 'center', gap: 6, fontSize: 11 }}>

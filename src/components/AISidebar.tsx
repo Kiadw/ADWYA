@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { CheckCircle, AlertTriangle } from 'lucide-react';
 
 interface Issue {
   group: string;
@@ -85,7 +86,7 @@ export default function AISidebar({ result, loading }: { result: ScoringResult |
       {result.lipinski_compliant !== undefined && (
         <Section title="Lipinski (Rule of 5)">
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ fontSize: 14 }}>{result.lipinski_compliant ? '✅' : '⚠️'}</span>
+            {result.lipinski_compliant ? <CheckCircle size={14} color="#10b981" /> : <AlertTriangle size={14} color="#f59e0b" />}
             <span style={{ fontSize: 'var(--font-sm)', color: result.lipinski_compliant ? '#10b981' : '#f59e0b' }}>
               {result.lipinski_compliant ? 'Conforme' : `${result.lipinski_violations?.length} violation(s)`}
             </span>
