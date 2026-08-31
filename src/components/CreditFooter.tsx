@@ -46,35 +46,28 @@ export default function CreditFooter() {
     return () => { alive = false; };
   }, []);
 
+  // Pied de page en FLUX NORMAL, tout en bas (visible après scroll).
+  // Tout le libellé EST le lien vers soteria.tn.
   return (
     <footer
       style={{
-        position: 'fixed',
-        right: 12,
-        bottom: 8,
-        zIndex: 40,
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 6,
-        padding: '4px 10px',
-        borderRadius: 999,
-        background: 'rgba(255,255,255,0.82)',
-        backdropFilter: 'blur(6px)',
-        border: '1px solid rgba(0,0,0,0.08)',
-        fontSize: 11,
+        width: '100%',
+        boxSizing: 'border-box',
+        padding: '18px 16px',
+        textAlign: 'center',
+        fontSize: 12,
         lineHeight: 1.4,
         color: '#64748b',
+        borderTop: '1px solid rgba(0,0,0,0.06)',
       }}
     >
-      <span>{credit.label}</span>
-      <span style={{ opacity: 0.5 }}>·</span>
       <a
         href={credit.url}
         target="_blank"
         rel="noopener noreferrer"
-        style={{ color: '#0b6bcb', fontWeight: 600, textDecoration: 'none' }}
+        style={{ color: '#64748b', fontWeight: 600, textDecoration: 'none' }}
       >
-        {credit.link_text}
+        {credit.label}
       </a>
     </footer>
   );
