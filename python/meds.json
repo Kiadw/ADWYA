@@ -1,0 +1,272 @@
+[
+ {
+  "dci": "Losartan",
+  "classe": "Antagoniste AT1",
+  "categorie": "Cardiologie",
+  "smiles": "CCCC1=NC(=C(N1CC2=CC=C(C=C2)C3=CC=CC=C3C4=NN=N[NH]4)CO)Cl"
+ },
+ {
+  "dci": "Losartan/Hydrochlorothiazide",
+  "classe": "Antagoniste AT1 + Diuretique",
+  "categorie": "Cardiologie",
+  "smiles": "C1C2=C(C=C(C=C2)S(=O)(=O)N)S(=O)(=O)NN1"
+ },
+ {
+  "dci": "Amlodipine",
+  "classe": "Inhibiteur calcique",
+  "categorie": "Cardiologie",
+  "smiles": "CCOC(=O)C1=C(NC(=C(C1C2=CC=CC=C2Cl)C(=O)OC)C)COCCN"
+ },
+ {
+  "dci": "Amlodipine",
+  "classe": "Inhibiteur calcique",
+  "categorie": "Cardiologie",
+  "smiles": "CCOC(=O)C1=C(NC(=C(C1C2=CC=CC=C2Cl)C(=O)OC)C)COCCN"
+ },
+ {
+  "dci": "Enalapril",
+  "classe": "IEC",
+  "categorie": "Cardiologie",
+  "smiles": "CCOC(=O)C(CCC1=CC=CC=C1)NC(C)C(=O)N1CCCC1C(=O)O"
+ },
+ {
+  "dci": "Enalapril",
+  "classe": "IEC",
+  "categorie": "Cardiologie",
+  "smiles": "CCOC(=O)C(CCC1=CC=CC=C1)NC(C)C(=O)N1CCCC1C(=O)O"
+ },
+ {
+  "dci": "Atorvastatine",
+  "classe": "Statine",
+  "categorie": "Cardiologie",
+  "smiles": "CC(C)C1=C(C(=CC=C1)C2=CC=CC=C2)N3C=C(C(C3=O)O)CC(CC(=O)O)O"
+ },
+ {
+  "dci": "Atorvastatine",
+  "classe": "Statine",
+  "categorie": "Cardiologie",
+  "smiles": "CC(C)C1=C(C(=CC=C1)C2=CC=CC=C2)N3C=C(C(C3=O)O)CC(CC(=O)O)O"
+ },
+ {
+  "dci": "Bisoprolol",
+  "classe": "Beta-bloquant",
+  "categorie": "Cardiologie",
+  "smiles": "CC(C)NCC(O)COC1=CC=C(C=C1)COCCOC(C)C"
+ },
+ {
+  "dci": "Bisoprolol",
+  "classe": "Beta-bloquant",
+  "categorie": "Cardiologie",
+  "smiles": "CC(C)NCC(O)COC1=CC=C(C=C1)COCCOC(C)C"
+ },
+ {
+  "dci": "Clopidogrel",
+  "classe": "Antiagregant plaquettaire",
+  "categorie": "Cardiologie",
+  "smiles": "COC(=O)C(C1=CC=CC=C1Cl)N2CCC3=C(C2)C=CS3"
+ },
+ {
+  "dci": "Omeprazole",
+  "classe": "IPP",
+  "categorie": "Gastroenterologie",
+  "smiles": "CC1=CN=C(C(=C1OC)C)CS(=O)C2=NC3=CC=CC=C3N2"
+ },
+ {
+  "dci": "Omeprazole",
+  "classe": "IPP",
+  "categorie": "Gastroenterologie",
+  "smiles": "CC1=CN=C(C(=C1OC)C)CS(=O)C2=NC3=CC=CC=C3N2"
+ },
+ {
+  "dci": "Pantoprazole",
+  "classe": "IPP",
+  "categorie": "Gastroenterologie",
+  "smiles": "COC1=C(C=C2C(=C1)N=C(N2)S(=O)CC3=C(C=C(C=N3)OC)OC)OC"
+ },
+ {
+  "dci": "Domperidone",
+  "classe": "Antiemetique",
+  "categorie": "Gastroenterologie",
+  "smiles": "C1CN(CCC1N2C(=O)NC3=C2C=C(C=C3)Cl)CCCN4C(=O)NC5=C4C=CC=C5"
+ },
+ {
+  "dci": "Fluoxetine",
+  "classe": "ISRS",
+  "categorie": "Neuropsychiatrie",
+  "smiles": "CNCCC(C1=CC=CC=C1)OC2=CC=C(C=C2)C(F)(F)F"
+ },
+ {
+  "dci": "Escitalopram",
+  "classe": "ISRS",
+  "categorie": "Neuropsychiatrie",
+  "smiles": "CN(C)CCCC1(C2=C(CO1)C=C(C=C2)C#N)C3=CC=C(C=C3)F"
+ },
+ {
+  "dci": "Alprazolam",
+  "classe": "Benzodiazepine",
+  "categorie": "Neuropsychiatrie",
+  "smiles": "CC1=NN=C2N1C3=C(C=CC(=C3)Cl)C(=NC2)C4=CC=CC=C4"
+ },
+ {
+  "dci": "Gabapentine",
+  "classe": "Antiepileptique",
+  "categorie": "Neuropsychiatrie",
+  "smiles": "C1CCC(CC1)(CC(=O)O)CN"
+ },
+ {
+  "dci": "Gabapentine",
+  "classe": "Antiepileptique",
+  "categorie": "Neuropsychiatrie",
+  "smiles": "C1CCC(CC1)(CC(=O)O)CN"
+ },
+ {
+  "dci": "Amoxicilline",
+  "classe": "Penicilline",
+  "categorie": "Anti-infectieux",
+  "smiles": "CC1(C(N2C(S1)C(C2=O)NC(=O)C(C3=CC=C(C=C3)O)N)C(=O)O)C"
+ },
+ {
+  "dci": "Amoxicilline",
+  "classe": "Penicilline",
+  "categorie": "Anti-infectieux",
+  "smiles": "CC1(C(N2C(S1)C(C2=O)NC(=O)C(C3=CC=C(C=C3)O)N)C(=O)O)C"
+ },
+ {
+  "dci": "Amoxicilline/Ac. Clavulanique",
+  "classe": "Penicilline + Inhibiteur beta-lactamase",
+  "categorie": "Anti-infectieux",
+  "smiles": "C1C2N(C(=O)C2(O1)C=CCO)C(=O)O"
+ },
+ {
+  "dci": "Azithromycine",
+  "classe": "Macrolide",
+  "categorie": "Anti-infectieux",
+  "smiles": "CCC1C(C(C(N(CC(CC(C(C(C(C(C(=O)O1)C)OC2CC(C(C(O2)C)O)(C)OC)C)OC3C(C(CC(O3)C)N(C)C)O)(C)O)C)C)C)O)(C)O"
+ },
+ {
+  "dci": "Ciprofloxacine",
+  "classe": "Fluoroquinolone",
+  "categorie": "Anti-infectieux",
+  "smiles": "C1CC1N2C=C(C(=O)C3=CC(=C(C=C32)N4CCNCC4)F)C(=O)O"
+ },
+ {
+  "dci": "Betamethasone",
+  "classe": "Corticoide topique",
+  "categorie": "Dermatologie",
+  "smiles": "CC1CC2C3CCC4=CC(=O)C=CC4(C3(C(CC2(C1(C(=O)CO)O)C)O)F)C"
+ },
+ {
+  "dci": "Fluconazole",
+  "classe": "Antifongique",
+  "categorie": "Dermatologie",
+  "smiles": "C(C(CN1C=NC=N1)(C2=C(C=C(C=C2)F)F)O)N3C=NC=N3"
+ },
+ {
+  "dci": "Fluconazole",
+  "classe": "Antifongique",
+  "categorie": "Dermatologie",
+  "smiles": "C(C(CN1C=NC=N1)(C2=C(C=C(C=C2)F)F)O)N3C=NC=N3"
+ },
+ {
+  "dci": "Metformine",
+  "classe": "Biguanide",
+  "categorie": "Diabetologie",
+  "smiles": "CN(C)C(=N)NC(=N)N"
+ },
+ {
+  "dci": "Metformine",
+  "classe": "Biguanide",
+  "categorie": "Diabetologie",
+  "smiles": "CN(C)C(=N)NC(=N)N"
+ },
+ {
+  "dci": "Glimepiride",
+  "classe": "Sulfamide hypoglycemiant",
+  "categorie": "Diabetologie",
+  "smiles": "CCC1=C(C=NC(=C1)C(=O)NCCC2=CC=C(C=C2)S(=O)(=O)NC(=O)NC3CCC(CC3)C)C"
+ },
+ {
+  "dci": "Glimepiride",
+  "classe": "Sulfamide hypoglycemiant",
+  "categorie": "Diabetologie",
+  "smiles": "CCC1=C(C=NC(=C1)C(=O)NCCC2=CC=C(C=C2)S(=O)(=O)NC(=O)NC3CCC(CC3)C)C"
+ },
+ {
+  "dci": "Tamsulosine",
+  "classe": "Alpha-bloquant",
+  "categorie": "Urologie",
+  "smiles": "CCOC1=C(C=CC(=C1)S(=O)(=O)N)CC(C)NCCOCC2=CC=CC=C2"
+ },
+ {
+  "dci": "Finasteride",
+  "classe": "Inhibiteur 5-alpha reductase",
+  "categorie": "Urologie",
+  "smiles": "CC(C)(C)NC(=O)C1CC2C3CCC4=CC(=O)NC4C3(CCC12C)C"
+ },
+ {
+  "dci": "Paracetamol",
+  "classe": "Analgesique / Antipyretique",
+  "categorie": "Antalgiques",
+  "smiles": "CC(=O)NC1=CC=C(C=C1)O"
+ },
+ {
+  "dci": "Paracetamol",
+  "classe": "Analgesique / Antipyretique",
+  "categorie": "Antalgiques",
+  "smiles": "CC(=O)NC1=CC=C(C=C1)O"
+ },
+ {
+  "dci": "Ibuprofene",
+  "classe": "AINS",
+  "categorie": "Antalgiques",
+  "smiles": "CC(C)CC1=CC=C(C=C1)C(C)C(=O)O"
+ },
+ {
+  "dci": "Diclofenac",
+  "classe": "AINS",
+  "categorie": "Antalgiques",
+  "smiles": "C1=CC=C(C(=C1)CC(=O)O)NC2=C(C=CC=C2Cl)Cl"
+ },
+ {
+  "dci": "Desloratadine",
+  "classe": "Antihistaminique H1",
+  "categorie": "Allergologie",
+  "smiles": "C1CC(=C2C3=C(CCC2)C=C(C=C3)Cl)C4=C(C=CC=N4)CC1"
+ },
+ {
+  "dci": "Cetirizine",
+  "classe": "Antihistaminique H1",
+  "categorie": "Allergologie",
+  "smiles": "C1CN(CCN1CCOCC(=O)O)C(C2=CC=CC=C2)C3=CC=C(C=C3)Cl"
+ },
+ {
+  "dci": "Montelukast",
+  "classe": "Antileucotriene",
+  "categorie": "Pneumologie",
+  "smiles": "CC(C)(C1=CC=CC=C1C2=C(C=CC(=C2)C=CC3=NC4=C(C=CC(=C4)Cl)C=C3)SCC(CC(=O)O)O)O"
+ },
+ {
+  "dci": "Allopurinol",
+  "classe": "Hypo-uricemiant",
+  "categorie": "Rhumatologie",
+  "smiles": "C1=NC2=C(N1)C(=O)NC=N2"
+ },
+ {
+  "dci": "Allopurinol",
+  "classe": "Hypo-uricemiant",
+  "categorie": "Rhumatologie",
+  "smiles": "C1=NC2=C(N1)C(=O)NC=N2"
+ },
+ {
+  "dci": "Levothyroxine",
+  "classe": "Hormone thyroidienne",
+  "categorie": "Endocrinologie",
+  "smiles": "C1=C(C=C(C(=C1I)O)I)OC2=CC(=C(C(=C2)I)CC(C(=O)O)N)I"
+ },
+ {
+  "dci": "Levothyroxine",
+  "classe": "Hormone thyroidienne",
+  "categorie": "Endocrinologie",
+  "smiles": "C1=C(C=C(C(=C1I)O)I)OC2=CC(=C(C(=C2)I)CC(C(=O)O)N)I"
+ }
+]

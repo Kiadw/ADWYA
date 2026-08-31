@@ -223,7 +223,7 @@ export default function MedicamentsPage() {
             <Globe size={8} /> {src.name}
           </a>
         ))}
-        <span>| DPM Tunisie | med.tn</span>
+        <span>| DPM Tunisie | med.tn — <em>numéros d'AMM fournis à titre indicatif, non vérifiés individuellement</em></span>
       </div>
     </div>
   );

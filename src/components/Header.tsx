@@ -105,7 +105,7 @@ export default function Header() {
                         <Search size={16} className="header-search-icon" />
                         <input
                             type="text"
-                            placeholder="Rechercher un ingredient, une formulation..."
+                            placeholder="Rechercher un ingrédient…"
                             value={searchQuery}
                             onChange={(e) => handleSearch(e.target.value)}
                             onFocus={() => searchQuery.length >= 2 && setShowSearch(true)}

@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant UI as Bio-Ingénieur (UI)
+    participant DB as Supabase
+    participant API as FastAPI (Backend)
+    participant GNN as Modèle GNN (Chimie)
+    participant NLP as Modèle NLP (Texte)
+    
+    UI->>DB: Ajout / Modification (SMILES + DCI)
+    DB->>API: Webhook : Nouvelle molécule détectée
+    
+    par Analyse Parallèle
+        API->>GNN: Envoi de la chaîne SMILES
+        Note over GNN: Conversion en Graphe<br/>Calcul des descripteurs ADMET
+        GNN-->>API: Prédiction (Toxicité, Interactions)
+        
+        API->>NLP: Envoi de la documentation clinique
+        Note over NLP: Extraction des Entités (NER)<br/>Analyse Sémantique
+        NLP-->>API: Classification & Contre-indications
+    end
+    
+    API->>API: Agrégation et Calcul du Score de Confiance Global
+    API->>DB: Mise à jour (Score IA, Flags d'Alerte)
+    DB-->>UI: Rafraîchissement Temps Réel (WebSockets)

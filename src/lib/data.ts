@@ -165,13 +165,13 @@ export const FORMULATIONS: Formulation[] = [
 ];
 
 export const ACTIVITIES: Activity[] = [
-    { id: "ACT001", action: "Classification IA", target: "Paracétamol", user: "Dr. Benali", timestamp: "Il y a 5 min", color: "var(--accent-primary)" },
-    { id: "ACT002", action: "Ajout ingrédient", target: "Croscarmellose sodique", user: "Dr. Khelifi", timestamp: "Il y a 15 min", color: "var(--accent-secondary)" },
-    { id: "ACT003", action: "Mise à jour formulation", target: "Doliprane 500mg", user: "Dr. Benali", timestamp: "Il y a 1h", color: "var(--accent-warm)" },
-    { id: "ACT004", action: "Revue de risque", target: "Morphine sulfate", user: "Dr. Mansouri", timestamp: "Il y a 2h", color: "var(--accent-rose)" },
-    { id: "ACT005", action: "Export données", target: "Rapport Q1 2024", user: "Dr. Khelifi", timestamp: "Il y a 3h", color: "var(--accent-tertiary)" },
+    { id: "ACT001", action: "Classification IA", target: "Paracétamol", user: "Système", timestamp: "Il y a 5 min", color: "var(--accent-primary)" },
+    { id: "ACT002", action: "Ajout ingrédient", target: "Croscarmellose sodique", user: "Système", timestamp: "Il y a 15 min", color: "var(--accent-secondary)" },
+    { id: "ACT003", action: "Mise à jour formulation", target: "Doliprane 500mg", user: "Système", timestamp: "Il y a 1h", color: "var(--accent-warm)" },
+    { id: "ACT004", action: "Revue de risque", target: "Morphine sulfate", user: "Système", timestamp: "Il y a 2h", color: "var(--accent-rose)" },
+    { id: "ACT005", action: "Export données", target: "Rapport Q1 2024", user: "Système", timestamp: "Il y a 3h", color: "var(--accent-tertiary)" },
     { id: "ACT006", action: "Classification IA batch", target: "12 composés", user: "Système", timestamp: "Il y a 5h", color: "var(--accent-primary)" },
-    { id: "ACT007", action: "Archivage", target: "Dioxyde de titane", user: "Dr. Mansouri", timestamp: "Hier", color: "var(--text-tertiary)" },
+    { id: "ACT007", action: "Archivage", target: "Dioxyde de titane", user: "Système", timestamp: "Hier", color: "var(--text-tertiary)" },
 ];
 
 // Helper: get ingredient by ID

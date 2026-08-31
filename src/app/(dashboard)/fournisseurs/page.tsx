@@ -82,7 +82,7 @@ export default function FournisseursPage() {
               </div>
               <div style={{ width: 120, display: 'flex', flexDirection: 'column', gap: 4, flexShrink: 0, marginRight: 16 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9, color: 'var(--text-tertiary)' }}>
-                  <span>Disponibilite</span>
+                  <span>Disponibilité (indicative)</span>
                   <span style={{ fontWeight: 600, color: sup.availability > 80 ? '#10b981' : sup.availability > 50 ? '#f59e0b' : '#ef4444' }}>{sup.availability}%</span>
                 </div>
                 <div style={{ width: '100%', height: 4, background: 'var(--bg-primary)', borderRadius: 2, overflow: 'hidden' }}>

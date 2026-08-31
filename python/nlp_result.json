@@ -1,0 +1,9 @@
+{
+  "n": 45,
+  "n_classes": 12,
+  "accuracy_loo": 0.822,
+  "f1_macro_loo": 0.752,
+  "baseline_majoritaire": 0.244,
+  "classe_majoritaire": "Cardiologie",
+  "comparaison_structure_seule_section_3_2_2": 0.125
+}

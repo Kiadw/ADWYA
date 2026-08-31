@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+  <text x="10" y="40" font-family="Arial, sans-serif" font-weight="900" font-size="32" fill="#e3000f">INSA</text>
+  <text x="90" y="40" font-family="Arial, sans-serif" font-weight="300" font-size="32" fill="#4a4a4a">Lyon</text>
+  <rect x="10" y="45" width="140" height="4" fill="#e3000f" />
+</svg>

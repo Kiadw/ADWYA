@@ -1,26 +1,64 @@
 'use client';
 
 import { useState } from 'react';
-import { BrainCircuit, Sparkles, AlertTriangle, CheckCircle2, HelpCircle, Clock } from 'lucide-react';
+import { BrainCircuit, Sparkles, AlertTriangle, CheckCircle2, HelpCircle, Clock, Zap, Cpu } from 'lucide-react';
 import { classifyIngredient, type ClassificationResult } from '@/lib/classifier';
 import { getCategoryBadgeClass, getRiskBadgeClass } from '@/lib/data';
+
+interface OpenAIResult {
+    name: string;
+    category?: string;
+    subCategory?: string;
+    riskClass?: string;
+    pharmacologicalAction?: string;
+    description?: string;
+    interactions?: string[];
+    contraindications?: string[];
+    dosageRange?: string;
+    storageConditions?: string;
+    source?: string;
+    error?: string;
+    fallback?: boolean;
+}
 
 export default function ClassificationPage() {
     const [input, setInput] = useState('');
     const [results, setResults] = useState<ClassificationResult[]>([]);
+    const [openaiResults, setOpenaiResults] = useState<Record<string, OpenAIResult>>({});
+    const [openaiLoading, setOpenaiLoading] = useState<Record<string, boolean>>({});
     const [isProcessing, setIsProcessing] = useState(false);
+
+    const fetchOpenAIAnalysis = async (ingredientName: string) => {
+        setOpenaiLoading(prev => ({ ...prev, [ingredientName]: true }));
+        try {
+            const res = await fetch('/api/openai-analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type: 'classify', data: { ingredientName } }),
+            });
+            const data = await res.json();
+            setOpenaiResults(prev => ({ ...prev, [ingredientName]: { name: ingredientName, ...data } }));
+        } catch {
+            setOpenaiResults(prev => ({ ...prev, [ingredientName]: { name: ingredientName, error: 'Connexion échouée' } }));
+        }
+        setOpenaiLoading(prev => ({ ...prev, [ingredientName]: false }));
+    };
 
     const handleClassify = () => {
         if (!input.trim()) return;
         setIsProcessing(true);
+        const name = input.trim();
 
-        // Simulate processing delay for UX
+        // Rule-based classification
         setTimeout(() => {
-            const result = classifyIngredient(input.trim());
+            const result = classifyIngredient(name);
             setResults(prev => [result, ...prev]);
             setInput('');
             setIsProcessing(false);
         }, 800);
+
+        // Parallel OpenAI deep analysis
+        fetchOpenAIAnalysis(name);
     };
 
     const handleBatchClassify = () => {
@@ -186,6 +224,61 @@ export default function ClassificationPage() {
                                             ))}
                                         </div>
                                     </div>
+                                )}
+                            </div>
+
+                            {/* OpenAI Deep Analysis Panel */}
+                            <div style={{ marginTop: 'var(--space-md)', padding: 'var(--space-md)', borderRadius: 'var(--radius-md)', background: 'rgba(27, 117, 188, 0.04)', border: '1px solid rgba(27, 117, 188, 0.12)' }}>
+                                <div style={{ fontSize: 'var(--font-xs)', fontWeight: 600, color: 'var(--accent-secondary)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+                                    <Zap size={12} /> Analyse approfondie — OpenAI GPT
+                                </div>
+                                {openaiLoading[result.name] ? (
+                                    <div style={{ fontSize: 'var(--font-sm)', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                                        <Cpu size={14} style={{ animation: 'pulse 1.5s infinite' }} /> Analyse GPT en cours…
+                                    </div>
+                                ) : openaiResults[result.name] ? (
+                                    openaiResults[result.name].error || openaiResults[result.name].fallback ? (
+                                        <div style={{ fontSize: 'var(--font-xs)', color: 'var(--text-tertiary)' }}>
+                                            Analyse GPT non disponible (clé API non configurée)
+                                        </div>
+                                    ) : (
+                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-sm)' }}>
+                                            {openaiResults[result.name].interactions && openaiResults[result.name].interactions!.length > 0 && (
+                                                <div>
+                                                    <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-tertiary)', marginBottom: 4 }}>INTERACTIONS</div>
+                                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+                                                        {openaiResults[result.name].interactions!.slice(0, 4).map((it, i) => (
+                                                            <span key={i} className="badge badge-amber" style={{ fontSize: 10 }}>{it}</span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {openaiResults[result.name].contraindications && openaiResults[result.name].contraindications!.length > 0 && (
+                                                <div>
+                                                    <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-tertiary)', marginBottom: 4 }}>CONTRE-INDICATIONS</div>
+                                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+                                                        {openaiResults[result.name].contraindications!.slice(0, 4).map((c, i) => (
+                                                            <span key={i} className="badge badge-rose" style={{ fontSize: 10 }}>{c}</span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {openaiResults[result.name].dosageRange && (
+                                                <div>
+                                                    <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-tertiary)', marginBottom: 4 }}>POSOLOGIE</div>
+                                                    <div style={{ fontSize: 'var(--font-xs)', color: 'var(--text-secondary)' }}>{openaiResults[result.name].dosageRange}</div>
+                                                </div>
+                                            )}
+                                            {openaiResults[result.name].storageConditions && (
+                                                <div>
+                                                    <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-tertiary)', marginBottom: 4 }}>CONSERVATION</div>
+                                                    <div style={{ fontSize: 'var(--font-xs)', color: 'var(--text-secondary)' }}>{openaiResults[result.name].storageConditions}</div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )
+                                ) : (
+                                    <div style={{ fontSize: 'var(--font-xs)', color: 'var(--text-tertiary)' }}>En attente…</div>
                                 )}
                             </div>
                         </div>

@@ -21,6 +21,7 @@ interface ScoringResult {
   confidence_interval?: string;
   ml_model_version?: string;
   data_sources?: string[];
+  smiles?: string;
 }
 
 const riskColor: Record<string, string> = {
@@ -99,13 +100,12 @@ export default function AISidebar({ result, loading }: { result: ScoringResult |
         </Section>
       )}
 
-      {/* ADMET */}
+      {/* Descripteurs physico-chimiques (calcul RDKit) */}
       {result.admet && Object.keys(result.admet).length > 0 && (
-        <Section title="ADMET">
-          {result.admet.oral_bioavailability && <InfoRow label="Biodisponibilité orale" value={result.admet.oral_bioavailability} />}
-          {result.admet.bbb_penetration && <InfoRow label="Pénétration BHE" value={result.admet.bbb_penetration} />}
-          {result.admet.logP != null && <InfoRow label="LogP" value={String(result.admet.logP)} />}
-          {result.admet.tpsa != null && <InfoRow label="TPSA" value={`${result.admet.tpsa} Å²`} />}
+        <Section title="Descripteurs (RDKit)">
+          {Object.entries(result.admet).map(([k, v]) => (
+            v != null && <InfoRow key={k} label={k} value={String(v)} />
+          ))}
         </Section>
       )}
 
@@ -129,10 +129,14 @@ export default function AISidebar({ result, loading }: { result: ScoringResult |
         </Section>
       )}
 
+      {/* OpenAI Deep Molecular Analysis */}
+      {result.smiles && (
+        <OpenAIMoleculePanel smiles={result.smiles} />
+      )}
+
       {/* Footer */}
       <div style={{ marginTop: 'auto', paddingTop: 'var(--space-md)', borderTop: '1px solid var(--border-primary)', fontSize: 11, color: 'var(--text-tertiary)' }}>
-        {result.ml_model_version} · {result.confidence_interval}<br />
-        Sources: {result.data_sources?.join(', ')}
+        Descripteurs et alertes calculés localement par RDKit (reproductible, sans service externe).
       </div>
     </div>
   );
@@ -170,3 +174,63 @@ function InfoRow({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
+
+function OpenAIMoleculePanel({ smiles }: { smiles: string }) {
+  const [data, setData] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState(false);
+  const [fetched, setFetched] = React.useState('');
+
+  React.useEffect(() => {
+    if (!smiles || smiles === fetched || smiles.length < 2) return;
+    setLoading(true);
+    setFetched(smiles);
+    fetch('/api/openai-analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'molecule-analysis', data: { smiles } }),
+    })
+      .then(r => r.json())
+      .then(d => { if (!d.error && !d.fallback) setData(d); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [smiles, fetched]);
+
+  if (loading) {
+    return (
+      <Section title="Analyse OpenAI GPT">
+        <div style={{ fontSize: 'var(--font-xs)', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#1B75BC', display: 'inline-block', animation: 'pulse 1.5s infinite' }} />
+          Analyse GPT en cours…
+        </div>
+      </Section>
+    );
+  }
+
+  if (!data) return null;
+
+  return (
+    <Section title="Analyse OpenAI GPT">
+      {data.druglikeness_score != null && <InfoRow label="Drug-likeness" value={`${data.druglikeness_score}/100`} />}
+      {data.synthetic_accessibility && <InfoRow label="Synthèse" value={data.synthetic_accessibility} />}
+      {data.metabolism?.bioavailability && <InfoRow label="Biodisponibilité" value={data.metabolism.bioavailability} />}
+      {data.metabolism?.half_life_estimate && <InfoRow label="Demi-vie" value={data.metabolism.half_life_estimate} />}
+      {data.toxicity_prediction && (
+        <div style={{ marginTop: 6 }}>
+          <div style={{ fontSize: 10, fontWeight: 600, color: 'var(--text-tertiary)', marginBottom: 4 }}>TOXICITÉ</div>
+          {Object.entries(data.toxicity_prediction).map(([k, v]) => (
+            <InfoRow key={k} label={k.replace(/_/g, ' ')} value={String(v)} />
+          ))}
+        </div>
+      )}
+      {data.formulation_suggestions && data.formulation_suggestions.length > 0 && (
+        <div style={{ marginTop: 6 }}>
+          <div style={{ fontSize: 10, fontWeight: 600, color: 'var(--text-tertiary)', marginBottom: 4 }}>FORMULATION</div>
+          {data.formulation_suggestions.slice(0, 3).map((s: string, i: number) => (
+            <div key={i} style={{ fontSize: 11, color: 'var(--text-secondary)', marginBottom: 2 }}>• {s}</div>
+          ))}
+        </div>
+      )}
+    </Section>
+  );
+}
+

@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { supabase } from '@/lib/supabase';
+import { logout } from '@/lib/auth';
 import WikiPopup from './WikiPopup';
 import {
     LayoutDashboard,
@@ -21,6 +21,8 @@ import {
     LogOut,
     Truck,
     BookOpen,
+    GraduationCap,
+    Presentation,
 } from 'lucide-react';
 
 const NAV_SECTIONS = [
@@ -28,22 +30,32 @@ const NAV_SECTIONS = [
         title: 'Principal',
         links: [
             { href: '/', label: 'Dashboard', icon: LayoutDashboard, id: 'nav-dashboard' },
-            { href: '/ingredients', label: 'Ingredients', icon: FlaskConical, badge: '45', id: 'nav-ingredients' },
-            { href: '/medicaments', label: 'Medicaments', icon: Pill, id: 'nav-medicaments' },
+            { href: '/ingredients', label: 'Ingrédients', icon: FlaskConical, badge: '45', id: 'nav-ingredients' },
+            { href: '/medicaments', label: 'Médicaments', icon: Pill, id: 'nav-medicaments' },
             { href: '/fournisseurs', label: 'Fournisseurs', icon: Truck, id: 'nav-fournisseurs' },
         ],
     },
     {
         title: 'Laboratoire In Silico (R&D)',
         links: [
-            { href: '/molecule-builder', label: 'Editeur de Molecules', icon: FlaskConical, id: 'nav-builder' },
+            { href: '/molecule-builder', label: 'Éditeur de Molécules', icon: FlaskConical, id: 'nav-builder' },
+            { href: '/structure-3d', label: 'Structure 3D', icon: FlaskConical, id: 'nav-3d' },
             { href: '/classification', label: 'Classification IA', icon: BrainCircuit, id: 'nav-classification' },
+            { href: '/similarite', label: 'Similarité structurale', icon: BrainCircuit, id: 'nav-similarite' },
+            { href: '/analyse-moleculaire', label: 'Analyse moléculaire', icon: FlaskConical, id: 'nav-molprops' },
+            { href: '/sous-structure', label: 'Recherche sous-structure', icon: BrainCircuit, id: 'nav-substr' },
+            { href: '/espace-chimique', label: 'Espace chimique', icon: BrainCircuit, id: 'nav-chemspace' },
+            { href: '/qsar', label: 'QSAR solubilité', icon: BrainCircuit, id: 'nav-qsar' },
+            { href: '/gnn-solubilite', label: 'GNN (graphe moléculaire)', icon: BrainCircuit, id: 'nav-gnn' },
+            { href: '/classification-texte', label: 'Classification par le texte', icon: BrainCircuit, id: 'nav-nlp' },
+            { href: '/entrainement-ia', label: 'Entraînement IA', icon: GraduationCap, id: 'nav-training' },
         ],
     },
     {
         title: 'Analyse',
         links: [
             { href: '/reports', label: 'Rapports', icon: FileBarChart, id: 'nav-reports' },
+            { href: '/pitch-deck', label: 'Pitch Deck', icon: Presentation, id: 'nav-pitch-deck' },
         ],
     },
 ];
@@ -56,12 +68,12 @@ const TOUR_STEPS = [
     },
     {
         targetId: 'nav-ingredients',
-        title: 'Base de donnees Ingredients',
+        title: 'Base de données Ingrédients',
         desc: 'Consultez et recherchez parmi 45 ingredients pharmaceutiques. Filtrez par categorie, niveau de risque, et exportez les donnees en CSV.',
     },
     {
         targetId: 'nav-medicaments',
-        title: 'Medicaments ADWYA',
+        title: 'Médicaments ADWYA',
         desc: '45 produits pharmaceutiques regroupes par nom commercial avec structure moleculaire, dosages multiples et fournisseurs reels.',
     },
     {
@@ -129,8 +141,8 @@ export default function Sidebar() {
         if (tourStep > 0) setTourStep(s => s - 1);
     };
 
-    const handleSignOut = async () => {
-        await supabase.auth.signOut();
+    const handleSignOut = () => {
+        logout();
         router.push('/login');
     };
 
@@ -193,12 +205,12 @@ export default function Sidebar() {
                         onClick={startTour}
                     >
                         <Compass size={20} className="sidebar-link-icon" />
-                        <span>Visite guidee</span>
+                        <span>Visite guidée</span>
                     </div>
 
                     <Link href="/settings" className={`sidebar-link ${pathname === '/settings' ? 'active' : ''}`}>
                         <Settings size={20} className="sidebar-link-icon" />
-                        <span>Parametres</span>
+                        <span>Paramètres</span>
                     </Link>
 
                     <button 
@@ -207,7 +219,7 @@ export default function Sidebar() {
                         style={{ color: 'var(--error-color, #ef4444)', cursor: 'pointer', marginTop: 'var(--space-xs)' }}
                     >
                         <LogOut size={20} className="sidebar-link-icon" />
-                        <span>Se deconnecter</span>
+                        <span>Se déconnecter</span>
                     </button>
 
                     <div style={{

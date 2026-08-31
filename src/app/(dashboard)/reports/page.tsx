@@ -44,13 +44,25 @@ const supplierBarData = {
     }],
 };
 
-// Monthly additions (simulated)
-const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août'];
+// Répartition mensuelle RÉELLE, calculée à partir du champ dateAdded
+const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
+const monthCounts = new Array(12).fill(0);
+INGREDIENTS.forEach(i => { const m = new Date(i.dateAdded).getMonth(); if (!isNaN(m)) monthCounts[m]++; });
+// Validation réelle du numéro CAS (somme de contrôle)
+function isValidCAS(cas: string): boolean {
+    const m = /^(\d{2,7})-(\d{2})-(\d)$/.exec((cas || '').trim());
+    if (!m) return false;
+    const digits = (m[1] + m[2]).split('').reverse();
+    let sum = 0; digits.forEach((d, i) => { sum += (i + 1) * parseInt(d, 10); });
+    return (sum % 10) === parseInt(m[3], 10);
+}
+const casValidPct = Math.round(100 * INGREDIENTS.filter(i => isValidCAS(i.casNumber)).length / INGREDIENTS.length);
+const activePct = Math.round(100 * INGREDIENTS.filter(i => i.category === 'Principe actif').length / INGREDIENTS.length);
 const monthlyData = {
     labels: months,
     datasets: [{
         label: 'Ingrédients ajoutés',
-        data: [8, 5, 7, 6, 6, 4, 5, 4],
+        data: monthCounts,
         fill: true,
         backgroundColor: 'rgba(96, 178, 70, 0.1)',
         borderColor: 'rgba(96, 178, 70, 0.8)',
@@ -218,10 +230,10 @@ export default function ReportsPage() {
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)', padding: 'var(--space-md) 0' }}>
                         {[
-                            { label: 'Taux de couverture IA', value: '92%', bar: 92 },
-                            { label: 'Ingrédients avec CAS valide', value: '100%', bar: 100 },
+                            { label: 'Principes actifs', value: `${activePct}%`, bar: activePct },
+                            { label: 'Ingrédients avec CAS valide', value: `${casValidPct}%`, bar: casValidPct },
                             { label: 'Formulations en production', value: `${FORMULATIONS.filter(f => f.status === 'Production').length}/${FORMULATIONS.length}`, bar: (FORMULATIONS.filter(f => f.status === 'Production').length / FORMULATIONS.length) * 100 },
-                            { label: 'Fournisseurs actifs', value: String(Object.keys(supplierCount).length), bar: 85 },
+                            { label: 'Fournisseurs actifs', value: String(Object.keys(supplierCount).length), bar: 100 },
                             { label: 'Excipients / Total', value: `${Math.round((excipients / totalIngredients) * 100)}%`, bar: (excipients / totalIngredients) * 100 },
                         ].map((kpi) => (
                             <div key={kpi.label}>

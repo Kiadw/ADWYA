@@ -28,7 +28,6 @@ const totalIngredients = INGREDIENTS.length;
 const activeIngredients = INGREDIENTS.filter(i => i.category === 'Principe actif').length;
 const totalFormulations = FORMULATIONS.length;
 const medStats = getMedicationStats();
-const classifications = 128; // simulated
 
 // Category distribution for doughnut
 const categoryCount: Record<string, number> = {};
@@ -111,10 +110,10 @@ const barOptions = {
 };
 
 const KPI_DATA = [
-  { label: 'Medicaments ADWYA', value: medStats.total, trend: `${medStats.categories} cat.`, icon: Pill },
-  { label: 'Principes Actifs', value: activeIngredients, trend: '+2', icon: Beaker },
-  { label: 'Formulations', value: totalFormulations, trend: '+1', icon: FlaskConical },
-  { label: 'Classifications IA', value: classifications, trend: '+12', icon: BrainCircuit },
+  { label: 'Médicaments (présentations)', value: medStats.total, trend: `${medStats.uniqueMolecules} molécules uniques`, icon: Pill },
+  { label: 'Ingrédients référencés', value: totalIngredients, trend: `${Object.keys(categoryCount).length} catégories`, icon: Beaker },
+  { label: 'Principes actifs', value: activeIngredients, trend: `sur ${totalIngredients} ingrédients`, icon: FlaskConical },
+  { label: 'Formulations', value: totalFormulations, trend: 'référencées', icon: BrainCircuit },
 ];
 
 export default function DashboardPage() {
@@ -153,7 +152,7 @@ export default function DashboardPage() {
                 <div className="kpi-card-icon">
                   <Icon size={22} />
                 </div>
-                <span className="kpi-card-trend up">↑ {kpi.trend}</span>
+                <span className="kpi-card-trend">{kpi.trend}</span>
               </div>
               <div className="kpi-card-value">{kpi.value}</div>
               <div className="kpi-card-label">{kpi.label}</div>
@@ -240,13 +239,13 @@ export default function DashboardPage() {
         <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span className="card-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--error-color, #ef4444)', display: 'inline-block', animation: 'pulse 2s infinite' }} />
-            Alertes Supply Chain (Live API)
+            Alertes d'approvisionnement
           </span>
-          <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Mise à jour en temps réel</span>
+          <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Données de démonstration</span>
         </div>
         <div style={{ padding: 'var(--space-md) 0' }}>
           {loadingAlerts ? (
-            <div style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-sm)', padding: 'var(--space-md)' }}>Synchronisation des bases FDA & EMA...</div>
+            <div style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-sm)', padding: 'var(--space-md)' }}>Aucune alerte d'approvisionnement active.</div>
           ) : supplyAlerts.length > 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
               {supplyAlerts.map((alert, idx) => (

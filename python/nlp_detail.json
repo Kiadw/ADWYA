@@ -1,0 +1,272 @@
+[
+  {
+    "dci": "Losartan",
+    "reel": "Cardiologie",
+    "predit": "Cardiologie",
+    "correct": true
+  },
+  {
+    "dci": "Losartan/Hydrochlorothiazide",
+    "reel": "Cardiologie",
+    "predit": "Cardiologie",
+    "correct": true
+  },
+  {
+    "dci": "Amlodipine",
+    "reel": "Cardiologie",
+    "predit": "Cardiologie",
+    "correct": true
+  },
+  {
+    "dci": "Amlodipine",
+    "reel": "Cardiologie",
+    "predit": "Cardiologie",
+    "correct": true
+  },
+  {
+    "dci": "Enalapril",
+    "reel": "Cardiologie",
+    "predit": "Cardiologie",
+    "correct": true
+  },
+  {
+    "dci": "Enalapril",
+    "reel": "Cardiologie",
+    "predit": "Cardiologie",
+    "correct": true
+  },
+  {
+    "dci": "Atorvastatine",
+    "reel": "Cardiologie",
+    "predit": "Cardiologie",
+    "correct": true
+  },
+  {
+    "dci": "Atorvastatine",
+    "reel": "Cardiologie",
+    "predit": "Cardiologie",
+    "correct": true
+  },
+  {
+    "dci": "Bisoprolol",
+    "reel": "Cardiologie",
+    "predit": "Cardiologie",
+    "correct": true
+  },
+  {
+    "dci": "Bisoprolol",
+    "reel": "Cardiologie",
+    "predit": "Cardiologie",
+    "correct": true
+  },
+  {
+    "dci": "Clopidogrel",
+    "reel": "Cardiologie",
+    "predit": "Cardiologie",
+    "correct": true
+  },
+  {
+    "dci": "Omeprazole",
+    "reel": "Gastroenterologie",
+    "predit": "Gastroenterologie",
+    "correct": true
+  },
+  {
+    "dci": "Omeprazole",
+    "reel": "Gastroenterologie",
+    "predit": "Gastroenterologie",
+    "correct": true
+  },
+  {
+    "dci": "Pantoprazole",
+    "reel": "Gastroenterologie",
+    "predit": "Gastroenterologie",
+    "correct": true
+  },
+  {
+    "dci": "Domperidone",
+    "reel": "Gastroenterologie",
+    "predit": "Cardiologie",
+    "correct": false
+  },
+  {
+    "dci": "Fluoxetine",
+    "reel": "Neuropsychiatrie",
+    "predit": "Neuropsychiatrie",
+    "correct": true
+  },
+  {
+    "dci": "Escitalopram",
+    "reel": "Neuropsychiatrie",
+    "predit": "Neuropsychiatrie",
+    "correct": true
+  },
+  {
+    "dci": "Alprazolam",
+    "reel": "Neuropsychiatrie",
+    "predit": "Cardiologie",
+    "correct": false
+  },
+  {
+    "dci": "Gabapentine",
+    "reel": "Neuropsychiatrie",
+    "predit": "Neuropsychiatrie",
+    "correct": true
+  },
+  {
+    "dci": "Gabapentine",
+    "reel": "Neuropsychiatrie",
+    "predit": "Neuropsychiatrie",
+    "correct": true
+  },
+  {
+    "dci": "Amoxicilline",
+    "reel": "Anti-infectieux",
+    "predit": "Anti-infectieux",
+    "correct": true
+  },
+  {
+    "dci": "Amoxicilline",
+    "reel": "Anti-infectieux",
+    "predit": "Anti-infectieux",
+    "correct": true
+  },
+  {
+    "dci": "Amoxicilline/Ac. Clavulanique",
+    "reel": "Anti-infectieux",
+    "predit": "Anti-infectieux",
+    "correct": true
+  },
+  {
+    "dci": "Azithromycine",
+    "reel": "Anti-infectieux",
+    "predit": "Cardiologie",
+    "correct": false
+  },
+  {
+    "dci": "Ciprofloxacine",
+    "reel": "Anti-infectieux",
+    "predit": "Cardiologie",
+    "correct": false
+  },
+  {
+    "dci": "Betamethasone",
+    "reel": "Dermatologie",
+    "predit": "Cardiologie",
+    "correct": false
+  },
+  {
+    "dci": "Fluconazole",
+    "reel": "Dermatologie",
+    "predit": "Dermatologie",
+    "correct": true
+  },
+  {
+    "dci": "Fluconazole",
+    "reel": "Dermatologie",
+    "predit": "Dermatologie",
+    "correct": true
+  },
+  {
+    "dci": "Metformine",
+    "reel": "Diabetologie",
+    "predit": "Diabetologie",
+    "correct": true
+  },
+  {
+    "dci": "Metformine",
+    "reel": "Diabetologie",
+    "predit": "Diabetologie",
+    "correct": true
+  },
+  {
+    "dci": "Glimepiride",
+    "reel": "Diabetologie",
+    "predit": "Diabetologie",
+    "correct": true
+  },
+  {
+    "dci": "Glimepiride",
+    "reel": "Diabetologie",
+    "predit": "Diabetologie",
+    "correct": true
+  },
+  {
+    "dci": "Tamsulosine",
+    "reel": "Urologie",
+    "predit": "Cardiologie",
+    "correct": false
+  },
+  {
+    "dci": "Finasteride",
+    "reel": "Urologie",
+    "predit": "Cardiologie",
+    "correct": false
+  },
+  {
+    "dci": "Paracetamol",
+    "reel": "Antalgiques",
+    "predit": "Antalgiques",
+    "correct": true
+  },
+  {
+    "dci": "Paracetamol",
+    "reel": "Antalgiques",
+    "predit": "Antalgiques",
+    "correct": true
+  },
+  {
+    "dci": "Ibuprofene",
+    "reel": "Antalgiques",
+    "predit": "Antalgiques",
+    "correct": true
+  },
+  {
+    "dci": "Diclofenac",
+    "reel": "Antalgiques",
+    "predit": "Antalgiques",
+    "correct": true
+  },
+  {
+    "dci": "Desloratadine",
+    "reel": "Allergologie",
+    "predit": "Allergologie",
+    "correct": true
+  },
+  {
+    "dci": "Cetirizine",
+    "reel": "Allergologie",
+    "predit": "Allergologie",
+    "correct": true
+  },
+  {
+    "dci": "Montelukast",
+    "reel": "Pneumologie",
+    "predit": "Cardiologie",
+    "correct": false
+  },
+  {
+    "dci": "Allopurinol",
+    "reel": "Rhumatologie",
+    "predit": "Rhumatologie",
+    "correct": true
+  },
+  {
+    "dci": "Allopurinol",
+    "reel": "Rhumatologie",
+    "predit": "Rhumatologie",
+    "correct": true
+  },
+  {
+    "dci": "Levothyroxine",
+    "reel": "Endocrinologie",
+    "predit": "Endocrinologie",
+    "correct": true
+  },
+  {
+    "dci": "Levothyroxine",
+    "reel": "Endocrinologie",
+    "predit": "Endocrinologie",
+    "correct": true
+  }
+]

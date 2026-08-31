@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Sauvegarde complète du projet (43 Mo) — artefact local, pas une source.
+adwya_standalone.tar.gz
+
+# Caches Python des scripts de modélisation
+python/__pycache__/

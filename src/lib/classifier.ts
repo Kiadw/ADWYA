@@ -107,6 +107,16 @@ const GENERIC_PATTERNS: { pattern: RegExp; category: string; subCategory: string
   { pattern: /cellulose|amidon|gomme|pectine/i, category: "Excipient", subCategory: "Polymère naturel" },
 ];
 
+// Confiance de l'étage flou (2) : régression logistique confidence = P(correct | distance),
+// ajustée sur 3064 fautes de frappe simulées sur les 40 noms canoniques des règles
+// (python/calibrate_fuzzy_confidence.py). Remplace l'ancienne formule choisie à la main
+// (0.9 - 0.15*d) — 17x moins bien calibrée (log-loss 0.507 contre 0.031 pour ce modèle).
+const FUZZY_CONF_A = 9.129;
+const FUZZY_CONF_B = -1.606;
+function fuzzyConfidence(distance: number): number {
+  return 1 / (1 + Math.exp(-(FUZZY_CONF_A + FUZZY_CONF_B * distance)));
+}
+
 function levenshtein(a: string, b: string): number {
   const m = a.length, n = b.length;
   const dp: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
@@ -144,7 +154,7 @@ export function classifyIngredient(name: string): ClassificationResult {
         name: normalized,
         category: rule.category,
         subCategory: rule.subCategory,
-        confidence: 0.95 + Math.random() * 0.05,
+        confidence: 0.98,
         riskClass: rule.riskClass,
         description: rule.description,
         pharmacologicalAction: rule.pharmacologicalAction,
@@ -168,7 +178,7 @@ export function classifyIngredient(name: string): ClassificationResult {
   }
 
   if (bestMatch.rule && bestMatch.distance <= 3) {
-    const confidence = Math.max(0.5, 0.9 - bestMatch.distance * 0.15);
+    const confidence = fuzzyConfidence(bestMatch.distance);
     return {
       name: normalized,
       category: bestMatch.rule.category,
@@ -188,7 +198,7 @@ export function classifyIngredient(name: string): ClassificationResult {
         name: normalized,
         category: gp.category,
         subCategory: gp.subCategory,
-        confidence: 0.55 + Math.random() * 0.15,
+        confidence: 0.62,
         riskClass: gp.category === "Principe actif" ? "Modéré" : "Faible",
         description: `Classification par analyse de la nomenclature (suffixe DCI).`,
         pharmacologicalAction: "À vérifier",

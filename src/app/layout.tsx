@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import CreditFooter from "@/components/CreditFooter";
 
 export const metadata: Metadata = {
   title: "ADWYA — Plateforme d'Analyse Pharmaceutique",
@@ -18,6 +19,8 @@ export default function RootLayout({
     <html lang="fr">
       <body>
         {children}
+        {/* Crédit affiché sur toutes les pages, connexion incluse. */}
+        <CreditFooter />
       </body>
     </html>
   );

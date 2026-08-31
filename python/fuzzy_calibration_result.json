@@ -1,0 +1,28 @@
+{
+  "n_total": 3064,
+  "empirical_accuracy_par_distance": {
+    "1": {
+      "n": 894,
+      "accuracy": 1.0
+    },
+    "2": {
+      "n": 1138,
+      "accuracy": 0.998
+    },
+    "3": {
+      "n": 1032,
+      "accuracy": 0.985
+    }
+  },
+  "confiance_apprise_par_distance": {
+    "1": 0.999,
+    "2": 0.997,
+    "3": 0.987
+  },
+  "coef_logistique": {
+    "a": 9.129,
+    "b": -1.606
+  },
+  "log_loss_modele_appris": 0.0306,
+  "log_loss_ancienne_formule_manuelle": 0.5074
+}

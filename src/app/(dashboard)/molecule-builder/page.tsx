@@ -76,26 +76,46 @@ export default function MoleculeBuilderPage() {
     return () => iframe.removeEventListener('load', onLoad);
   }, []);
 
-  // Run AI scoring
+  // Analyse moléculaire — calcul LOCAL et reproductible par RDKit (descripteurs + alertes SMARTS),
+  // en remplacement de la fonction Edge opaque. Aucune boîte noire : chaque valeur est auditable.
   const runScoring = useCallback(async (smiles: string) => {
     if (!smiles || smiles.length < 2) return;
     setScoringLoading(true);
     try {
-      const res = await fetch(`${SUPABASE_URL}/ai-scoring`, {
+      const res = await fetch('/api/molprops', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ smiles })
       });
-      const data: ScoringResult = await res.json();
-      setScoringResult(data);
-
-      // Highlight problematic atoms if issues found
-      if (data.structural_issues && data.structural_issues.length > 0) {
-        const atomIndices = data.structural_issues.map((_, i) => i);
-        highlightAtoms(iframeRef, atomIndices);
-      }
+      const d = await res.json();
+      if (d.error) { setScoringLoading(false); return; }
+      // Score de druglikeness TRANSPARENT : 100 − 15 par violation de Lipinski − 12 par alerte structurale.
+      const nViol = d.lipinski?.violations?.length || 0;
+      const nAlert = d.alertes?.length || 0;
+      const score = Math.max(0, 100 - nViol * 15 - nAlert * 12);
+      const issues = (d.alertes || []).map((a: any) => ({
+        group: a.nom, risk: 'Élevé', description: a.note, atoms: a.atomes,
+      }));
+      const mapped: ScoringResult = {
+        score,
+        viability: score > 80 ? 'High' : score > 60 ? 'Moderate' : 'Low',
+        molecular_formula: d.formule,
+        molecular_weight: d.descripteurs?.MW,
+        lipinski_compliant: d.lipinski?.conforme,
+        lipinski_violations: d.lipinski?.violations,
+        admet: {
+          LogP: d.descripteurs?.LogP, TPSA: `${d.descripteurs?.TPSA} Å²`,
+          'Donneurs H': d.descripteurs?.HBD, 'Accepteurs H': d.descripteurs?.HBA,
+          'Liaisons rotatives': d.descripteurs?.liaisons_rotatives,
+        },
+        structural_issues: issues,
+      };
+      setScoringResult(mapped);
+      // Surlignage des atomes RÉELLEMENT concernés (issus des motifs SMARTS), et non 0..n.
+      const realAtoms = issues.flatMap((i: any) => i.atoms || []);
+      if (realAtoms.length > 0) highlightAtoms(iframeRef, realAtoms);
     } catch (err) {
-      console.error('AI scoring failed:', err);
+      console.error('Analyse moléculaire échouée:', err);
     } finally {
       setScoringLoading(false);
     }
@@ -137,10 +157,10 @@ export default function MoleculeBuilderPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
         <div>
           <h1 style={{ fontSize: 'var(--font-xl)', color: 'var(--text-primary)', fontWeight: 600, margin: 0 }}>
-            Editeur de Molecules (Ketcher V3)
+            Éditeur de Molécules (Ketcher V3)
           </h1>
           <p style={{ color: 'var(--text-secondary)', margin: '4px 0 0', fontSize: 'var(--font-sm)' }}>
-            Analyse IA en temps reel . Fournisseurs mondiaux . Annotations visuelles
+            Analyse structurale en temps réel · Descripteurs RDKit · Alertes SMARTS
           </p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>

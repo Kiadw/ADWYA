@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { login, DEMO_HINT } from '@/lib/auth';
 import SmilesDrawer from 'smiles-drawer';
 import styles from './login.module.css';
 
@@ -90,23 +90,9 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
-    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-
-    if (error) {
-      let errorMsg = error.message;
-      if (error.message.includes('Invalid login credentials')) {
-        errorMsg = 'Email ou mot de passe incorrect.';
-      } else if (error.message.includes('Email not confirmed')) {
-        errorMsg = 'Veuillez confirmer votre adresse email avant de vous connecter.';
-      } else if (error.message.includes('rate limit')) {
-        errorMsg = 'Trop de tentatives de connexion. Veuillez réessayer plus tard.';
-      } else if (error.message.includes('User not found')) {
-        errorMsg = 'Aucun compte associé à cette adresse email.';
-      } else if (error.message.includes('Invalid Grant')) {
-        errorMsg = 'Identifiants de connexion invalides.';
-      }
-      setError(errorMsg);
+    const res = login(email, password);
+    if (!res.ok) {
+      setError(res.error || 'Échec de la connexion.');
       setLoading(false);
     } else {
       router.push('/');
@@ -146,7 +132,7 @@ export default function LoginPage() {
       </div>
 
       <div className={styles.footerText}>
-        <p>Plateforme securisee d&apos;analyse, structuration et classification des donnees pharmaceutiques.</p>
+        <p>Plateforme sécurisée d&apos;analyse, structuration et classification des données pharmaceutiques.</p>
       </div>
 
       {/* Form card */}
@@ -155,7 +141,7 @@ export default function LoginPage() {
 
         <div className={styles.formHeader}>
           <h1 className={styles.formTitle}>Connexion</h1>
-          <p className={styles.formSubtitle}>Acces securise au reseau ADWYA</p>
+          <p className={styles.formSubtitle}>Accès sécurisé au réseau ADWYA</p>
         </div>
 
         <form onSubmit={handleLogin}>
@@ -186,12 +172,15 @@ export default function LoginPage() {
               <input type="checkbox" />
               <span>Se souvenir de moi</span>
             </label>
-            <a href="#" className={styles.link}>Oublie ?</a>
+            <a href="#" className={styles.link}>Oublié ?</a>
           </div>
 
           <button type="submit" disabled={loading} className={styles.submitBtn}>
             {loading ? 'Connexion en cours...' : 'Se Connecter'}
           </button>
+          <p style={{ marginTop: 12, fontSize: 12.5, textAlign: 'center', color: '#5A6B73' }}>
+            Compte de démonstration : <strong>{DEMO_HINT}</strong>
+          </p>
         </form>
 
         <div className={styles.addressFooter}>

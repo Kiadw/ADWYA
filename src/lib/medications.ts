@@ -103,8 +103,10 @@ export function getMedicationStats() {
   for (const m of ADWYA_MEDICATIONS) {
     byCat[m.categorie] = (byCat[m.categorie] || 0) + 1;
   }
+  const uniqueSmiles = new Set(ADWYA_MEDICATIONS.filter(m => m.smiles).map(m => m.smiles));
   return {
     total: ADWYA_MEDICATIONS.length,
+    uniqueMolecules: uniqueSmiles.size,
     categories: Object.keys(byCat).length,
     byCategory: byCat,
     commercialise: ADWYA_MEDICATIONS.filter(m => m.statut === 'Commercialise').length,
